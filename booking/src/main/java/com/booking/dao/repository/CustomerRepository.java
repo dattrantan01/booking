@@ -12,6 +12,7 @@ import com.booking.dao.entity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer, String> {
 	Optional<Customer> findByEmail(String email);
+	List<Customer> getCustomersByCustomerName(String name);
 //
 //	@Query("select customer from Customer customer join customer.behaviors bi where bi.time > 0")
 //	List<Customer> findAllByBehavior();

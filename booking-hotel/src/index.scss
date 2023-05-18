@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @layer base {
     html {
       width: 100%;
@@ -66,3 +67,32 @@
       height: 100%;
     }
   }
+
+  .date_picker_wrapper {
+    width: 240px;
+    border: 1px solid #dddee6;
+    border-radius: 5px;
+    display: flex;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  
+  .date_picker_wrapper input:hover,
+  .date_picker_wrapper:hover {
+    background-color: #dae0e6;
+  }
+  
+  .date_picker_wrapper span {
+    margin-right: 5px;
+    margin-top: 2px;
+  }
+  
+  .date_picker_wrapper input {
+  
+    width: 200px;
+    padding: 10px 10px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+  }
+
