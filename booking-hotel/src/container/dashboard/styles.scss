@@ -1,0 +1,34 @@
+.dashboard {
+    &-main {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      padding: 40px 20px;
+      gap: 0 40px;
+      align-items: start;
+    }
+
+    &-header {
+        background-color: white;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 20px;
+    font-weight: 500;
+    color: #9ca3af;
+    margin-bottom: 20px;
+    cursor: pointer;
+    &.active,
+    &:hover {
+      background: #f1fbf7;
+      color: #22c55e;
+    }
+}

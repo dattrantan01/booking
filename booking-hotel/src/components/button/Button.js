@@ -1,10 +1,16 @@
 import React from "react";
 
-const Button = ({ children, onClick, styleClass, isLoading = false }) => {
+const Button = ({
+  children,
+  onClick,
+  rounded = "rounded-lg",
+  styleClass,
+  isLoading = false,
+}) => {
   return (
     <>
       <button
-        className={`px-5 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-primaryHover hover:-translate-y-[1px] hover:shadow-2xl ${styleClass}`}
+        className={`px-5 py-3 bg-primary text-white ${rounded} shadow-lg hover:bg-primaryHover hover:-translate-y-[1px] hover:shadow-2xl ${styleClass}`}
         onClick={onClick}
         disabled={isLoading}
       >

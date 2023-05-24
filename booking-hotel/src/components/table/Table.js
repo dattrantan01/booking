@@ -7,12 +7,12 @@ const Table = ({ head, data, linkTo, handleDelete, isLoading = false }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full overflow-x-auto shadow-md rounded-lg">
+    <div className="w-full overflow-x-auto shadow-md rounded-sm">
       {isLoading && (
-        <div className="w-10 h-10 border-8 inline-block border-t-noColor rounded-full border-purple-500 animate-spin fixed z-20 top-[50%] left-[50%]"></div>
+        <div className="w-10 h-10 border-8 inline-block border-t-noColor rounded-full border-green-500 animate-spin fixed z-20 top-[50%] left-[50%]"></div>
       )}
       <table className="w-full text-sm">
-        <thead className="bg-purple-200">
+        <thead className="">
           <tr>
             <th>ID</th>
             {head?.length &&
@@ -55,12 +55,15 @@ const Table = ({ head, data, linkTo, handleDelete, isLoading = false }) => {
                     <td>
                       <div className="flex flex-row w-full justify-end gap-2 mt-auto">
                         <Button
-                          styleClass="bg-secondary"
+                          rounded="rounded-md"
                           onClick={() => navigate(`${linkTo}${item.id}`)}
                         >
                           <AiOutlineEdit />
                         </Button>
-                        <Button onClick={() => handleDelete(item.id)}>
+                        <Button
+                          rounded="rounded-md"
+                          onClick={() => handleDelete(item.id)}
+                        >
                           <AiOutlineDelete />
                         </Button>
                       </div>

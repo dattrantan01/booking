@@ -7,7 +7,7 @@ const Select = ({ placeholder = "", edit = false }) => {
     <div
       className={`flex items-center justify-between px-3 py-2 ${
         edit ? "bg-transparent" : "bg-slate-100"
-      }  rounded cursor-pointer font-medium `}
+      }  rounded cursor-pointer font-medium border border-noColor`}
       onClick={edit ? null : toggle}
     >
       <span>{placeholder}</span>

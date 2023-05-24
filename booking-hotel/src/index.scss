@@ -15,22 +15,23 @@
     }
     td {
       vertical-align: middle;
-      padding: 15px 30px;
+      padding: 10px 20px;
       max-width: 400px;
       overflow: hidden;
     }
     tr:nth-child(even) {
-      background-color: #eff6ff;
+      background-color: #f0fdfa;
     }
     tr:nth-child(odd) {
       background-color: white;
     }
     th {
+      font-weight: 800;
+      color: #15803d;
       text-align: left;
-      padding: 20px 30px;
+      padding: 10px 20px;
       max-width: 600px;
-      background-color: #695af9;
-      opacity: 0.8;
+      background-color: #d6ece7;
     }
   }
   .text-td {
@@ -66,6 +67,7 @@
     .banner .swiper {
       height: 100%;
     }
+    
   }
 
   .date_picker_wrapper {
@@ -96,3 +98,4 @@
     cursor: pointer;
   }
 
+  

@@ -22,10 +22,11 @@ const LoginPage = () => {
         .required("Please enter your email address"),
       password: yup
         .string()
-        .min(2, "Your password must be at least 8 characters or greater")
+        .min(4, "Your password must be at least 8 characters or greater")
         .required("Please enter your password"),
     })
     .required();
+
   const {
     handleSubmit,
     control,
@@ -38,15 +39,11 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const onSubmit = (e) => {
-    login(e);
-  };
 
-  function login(value) {
+  const onSubmit = (value) => {
     http
       .post("auth/login", value)
       .then((res) => {
-        console.log("login success: ", res);
         localStorage.setItem("token", res.data.token);
         setUser(res?.data.customerResponseDto);
         navigate(-1);
@@ -55,10 +52,7 @@ const LoginPage = () => {
         console.log("error: ", err);
         toast.error("Email or password incorrect");
       });
-  }
-
-  // function get  room status when login success!
-  // move this function when UI Success!
+  };
 
   return (
     <div className="minH-[100vh] h-[100vh] w-full flex justify-center items-center bg-grayLight">
