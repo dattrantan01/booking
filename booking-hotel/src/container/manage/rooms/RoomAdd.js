@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -8,6 +8,8 @@ import Label from "../../../components/label/Label";
 import Input from "../../../components/input/Input";
 import Dropdown from "../../../components/dropdown/Dropdown";
 import Select from "../../../components/dropdown/Select";
+import UploadImages from "../../../components/uploadImages/UploadImages";
+import UploadImage from "../../../components/uploadImages/UploadImage";
 
 const schema = yup
   .object({
@@ -18,6 +20,7 @@ const schema = yup
   .required();
 
 const RoomAdd = () => {
+  const [imageFiles, setImageFiles] = useState([]);
   const {
     handleSubmit,
     control,
@@ -37,10 +40,14 @@ const RoomAdd = () => {
   const { utilities, handleAddUtility, handleClearUtility, setUtilities } =
     useUtilities(unregister);
 
+  const addNewRoom = (values) => {
+    console.log(imageFiles);
+  };
+
   return (
-    <div>
+    <form onSubmit={handleSubmit(addNewRoom)}>
       <h1 className="text-2xl font-bold mb-5">Create New Rooms</h1>
-      <div className="grid grid-cols-2 gap-10 max-w-[800px]">
+      <div className="grid grid-cols-2 gap-10 max-w-[900px]">
         <Field>
           <Label>Room Name</Label>
           <Input
@@ -123,7 +130,13 @@ const RoomAdd = () => {
           </Field>
         </div>
       </div>
-    </div>
+      {/* <div className="max-w-[1200px] w-full h-[220px]">
+        <UploadImages imageFiles={imageFiles} setImageFiles={setImageFiles} />
+      </div> */}
+      <div className="max-w-[1200px] w-full h-[220px]">
+        <UploadImage />
+      </div>
+    </form>
   );
 };
 
