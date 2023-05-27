@@ -183,6 +183,9 @@
                         <arg>
                             -Amapstruct.unmappedTargetPolicy=WARN
                         </arg>
+                        <arg>
+                            -Amapstruct.verbose=true
+                        </arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

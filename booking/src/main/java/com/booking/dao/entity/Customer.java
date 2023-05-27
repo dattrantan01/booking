@@ -28,7 +28,7 @@ import lombok.Setter;
 @Table(name = "customer")
 @Getter
 @Setter
-public class Customer extends BaseEntity {
+public class Customer {
 	@Id
 	@GenericGenerator(name = "id_gen", strategy = "com.booking.common.utils.GenerateUUID")
 	@GeneratedValue(generator = "id_gen")

@@ -36,44 +36,28 @@ CREATE TABLE `price`
     CONSTRAINT PRIMARY KEY (price_id)
 );
 
-CREATE TABLE `image_storage`
-(
-    image_storage_id VARCHAR(15),
-    time_create      DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT PRIMARY KEY (image_storage_id)
-);
-
 CREATE TABLE `image`
 (
-    image_id         VARCHAR(15),
-    image_storage_id VARCHAR(15) NOT NULL,
-    url              TEXT        NOT NULL,
-    time_create      DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    image_id    VARCHAR(15),
+    room_id     VARCHAR(15),
+    url         TEXT NOT NULL,
+    time_create DATETIME DEFAULT CURRENT_TIMESTAMP,
+    time_update DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT PRIMARY KEY (image_id),
-    CONSTRAINT `fk_image_image_storage` FOREIGN KEY (image_storage_id) REFERENCES `image_storage` (image_storage_id)
+    CONSTRAINT `fk_image_room` FOREIGN KEY (room_id) REFERENCES room (room_id)
 );
 
-CREATE TABLE `utility_storage`
+CREATE TABLE `amenities`
 (
-    utility_storage_id VARCHAR(15),
-    time_create        DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update        DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT PRIMARY KEY (utility_storage_id)
-);
-
-CREATE TABLE `utility`
-(
-    utility_id         VARCHAR(15),
-    utility_storage_id VARCHAR(15),
-    icon               enum('nha','cua'),
-    name               VARCHAR(255) NOT NULL,
-    value              VARCHAR(255) NOT NULL,
-    time_create        DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update        DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT PRIMARY KEY (utility_id),
-    CONSTRAINT `fk_utility_utility_storage` FOREIGN KEY (utility_storage_id) REFERENCES `utility_storage` (utility_storage_id)
+    amenities_id VARCHAR(15),
+    room_id      VARCHAR(15),
+    icon         enum('nha','cua'),
+    name         VARCHAR(255) NOT NULL,
+    value        VARCHAR(255) NOT NULL,
+    time_create  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    time_update  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT PRIMARY KEY (amenities_id),
+    CONSTRAINT `fk_amenities_room` FOREIGN KEY (room_id) REFERENCES room (room_id)
 );
 
 CREATE TABLE `room_type`
@@ -90,28 +74,24 @@ CREATE TABLE `room_type`
 
 CREATE TABLE `room`
 (
-    room_id            VARCHAR(15),
-    room_type_id       VARCHAR(15),
-    price_id           VARCHAR(15)  NOT NULL,
-    room_name          VARCHAR(255) NOT NULL,
-    average_rating     DOUBLE,
-    address            VARCHAR(255) NOT NULL,
-    province_id        INT          NOT NULL,
-    district_id        INT          NOT NULL,
-    ward_id            INT          NOT NULL,
-    description        TEXT,
-    image_storage_id   VARCHAR(15)  NOT NULL,
-    utility_storage_id VARCHAR(15)  NOT NULL,
-    customer_id        VARCHAR(15)  NOT NULL,
-    enable             BOOLEAN,
-    time_create        DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update        DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    room_id        VARCHAR(15),
+    room_type_id   VARCHAR(15),
+--     price_id       VARCHAR(15)  NOT NULL,
+    room_name      VARCHAR(255) NOT NULL,
+--     average_rating DOUBLE,
+    address        VARCHAR(255) NOT NULL,
+    province_id    INT          NOT NULL,
+    district_id    INT          NOT NULL,
+    ward_id        INT          NOT NULL,
+    description    TEXT,
+    customer_id    VARCHAR(15)  NOT NULL,
+    enable         BOOLEAN,
+    time_create    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    time_update    DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT PRIMARY KEY (room_id),
     CONSTRAINT `fk_room_room_type` FOREIGN KEY (room_type_id) REFERENCES room_type (room_type_id),
-    CONSTRAINT `fk_room_price` FOREIGN KEY (price_id) REFERENCES price (price_id),
-    CONSTRAINT `fk_room_image_storage` FOREIGN KEY (image_storage_id) REFERENCES image_storage (image_storage_id),
-    CONSTRAINT `fk_room_customer` FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
-    CONSTRAINT `fk_room_utility_storage` FOREIGN KEY (utility_storage_id) REFERENCES utility_storage (utility_storage_id)
+--     CONSTRAINT `fk_room_price` FOREIGN KEY (price_id) REFERENCES price (price_id),
+    CONSTRAINT `fk_room_customer` FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
 );
 
 CREATE TABLE `review`
@@ -190,20 +170,11 @@ VALUES ('eT4CxDVeDhP4TsF', 'PENDING', '2020-01-01 10:10:10', '2020-01-01 10:10:1
        ('tngpi7zVKfwAY0N', 'APPROVED', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
        ('0KT0vOJ9BzW8w79', 'PAYING', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
        ('glG2CED3UAYrlHR', 'CANCELLED', '2020-01-01 10:10:10', '2020-01-01 10:10:10');
-INSERT INTO `image_storage`(image_storage_id)
-VALUES ('Gr68kjDGZaHJWan'),
-       ('5BdLug6QsekC69Q'),
-       ('f7xnbjkY7T934k5'),
-       ('meegVeq6NcVHSQ9'),
-       ('QGUPnLT27DE7SGe'),
-       ('mhmZgS5Qvgxnja8'),
-       ('tMdbC9ADcY9sCVx');
 
 INSERT INTO `room_type`
 VALUES ('FWFQPJnNcKjrXaU', 'Gr68kjDGZaHJWan',
-        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392068/room-type/5b441494-f08e-4e61-8693-2a3cb25ab882/image_0_xczuwl.jpg', 'Conference room', 'A conference room is a dedicated space for events such as business conference calls and meetings.
-
-', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
+        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392068/room-type/5b441494-f08e-4e61-8693-2a3cb25ab882/image_0_xczuwl.jpg', 'Conference room',
+        'A conference room is a dedicated space for events such as business conference calls and meetings.', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
        ('wTMvLkQWXwQc85u', '5BdLug6QsekC69Q',
         'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392263/room-type/4ab00f11-27e1-409b-becf-007b80f1b79f/image_1_bo69az.png', 'Breakout space',
         'This is any informal space open to everyone, including visitors and partners. This area is separate from the usual working area. Designed for quick chats and spontaneous meetings, it’s also usually an area for employees to relax, socialize or eat lunch.',

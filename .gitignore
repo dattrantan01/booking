@@ -10,7 +10,8 @@
 **/developer.properties
 
 # Build tools
-.gradle/
+.mvn/
+application.properties
 
 # Ignore Gradle GUI config
 gradle-app.setting
