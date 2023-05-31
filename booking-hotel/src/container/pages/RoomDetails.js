@@ -2,6 +2,9 @@ import React from "react";
 import Dot from "../../components/dot/Dot";
 import { FaBath, FaBed } from "react-icons/fa";
 import DatePicker from "react-datepicker";
+import Field from "../../components/field/Field";
+import CheckboxNoForm from "../../components/checkbox/CheckboxNoForm";
+import Button from "../../components/button/Button";
 
 const RoomDetails = () => {
   return (
@@ -161,6 +164,24 @@ const RoomDetails = () => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="w-full mt-2 flex flex-row gap-5">
+              <Field>
+                <span>Guests</span>
+                <input
+                  type="number"
+                  className="w-full px-3 py-2 outline-none border focus:border-primary"
+                />
+              </Field>
+              <Field>
+                <span>Pets</span>
+                <CheckboxNoForm />
+              </Field>
+            </div>
+            <div className="w-full mt-5">
+              <button className="w-full px-5 py-3 bg-primary text-white rounded-lg hover:bg-primaryHover hover:-translate-y-[1px] shadow-lg shadow-green-400/100">
+                Reserve
+              </button>
             </div>
           </div>
         </div>

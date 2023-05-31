@@ -10,6 +10,9 @@ import Dropdown from "../../../components/dropdown/Dropdown";
 import Select from "../../../components/dropdown/Select";
 import UploadImages from "../../../components/uploadImages/UploadImages";
 import UploadImage from "../../../components/uploadImages/UploadImage";
+import { MultiSelect } from "react-multi-select-component";
+import { AiFillMinusCircle } from "react-icons/ai";
+import { amenitiesOptions } from "./helpers";
 
 const schema = yup
   .object({
@@ -21,6 +24,7 @@ const schema = yup
 
 const RoomAdd = () => {
   const [imageFiles, setImageFiles] = useState([]);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
   const {
     handleSubmit,
     control,
@@ -43,6 +47,8 @@ const RoomAdd = () => {
   const addNewRoom = (values) => {
     console.log(imageFiles);
   };
+
+  console.log(amenitiesOptions);
 
   return (
     <form onSubmit={handleSubmit(addNewRoom)}>
@@ -129,10 +135,60 @@ const RoomAdd = () => {
             />
           </Field>
         </div>
+        <div className="w-full">
+          <Label>Utilities</Label>
+          <div className="mt-5">
+            {utilities.map((utility, index) => {
+              return (
+                <div key={index} className="flex flex-row gap-2 items-center">
+                  <div
+                    className="mb-5 grid grid-cols-2 gap-3"
+                    key={utility.index}
+                  >
+                    <Field>
+                      <Label name={`nameUtility${utility.index}`}>Name</Label>
+                      <Input
+                        type="text"
+                        name={`nameUtility${utility.index}`}
+                        control={control}
+                      />
+                    </Field>
+                    <Field>
+                      <Label name={`priceUtility${utility.index}`}>Value</Label>
+                      <Input
+                        type="text"
+                        name={`priceUtility${utility.index}`}
+                        control={control}
+                      />
+                    </Field>
+                  </div>
+                  {index !== 0 && index === utilities.length - 1 && (
+                    <AiFillMinusCircle
+                      className="w-9 h-9 text-primary cursor-pointer"
+                      onClick={() => handleClearUtility(utility)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+            <h2
+              className=" text-primary mb-5 font-semibold cursor-pointer"
+              onClick={handleAddUtility}
+            >
+              Add more Utilities
+            </h2>
+          </div>
+        </div>
+        <div className="w-full mt-[47px] flex flex-col gap-3">
+          <Label>Amenities</Label>
+          <MultiSelect
+            options={amenitiesOptions}
+            value={selectedAmenities}
+            onChange={setSelectedAmenities}
+            hasSelectAll={false}
+          />
+        </div>
       </div>
-      {/* <div className="max-w-[1200px] w-full h-[220px]">
-        <UploadImages imageFiles={imageFiles} setImageFiles={setImageFiles} />
-      </div> */}
       <div className="max-w-[1200px] w-full h-[220px]">
         <UploadImage />
       </div>

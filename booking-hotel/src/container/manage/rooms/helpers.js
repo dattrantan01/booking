@@ -23,3 +23,18 @@ export const fakeData = [
     Price: "10$",
   },
 ];
+
+export const amenitiesOptions = [
+  {
+    label: "Wifi",
+    value: "wifi",
+  },
+  {
+    label: "Air Condition",
+    value: "airCondition",
+  },
+  {
+    label: "Hot Water",
+    value: "hotWater",
+  },
+];

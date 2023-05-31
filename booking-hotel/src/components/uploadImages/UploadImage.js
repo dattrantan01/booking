@@ -20,62 +20,78 @@ const UploadImage = () => {
   const [imageFiles, setImageFiles] = useState([]);
 
   const handleUploadImage = (file, nameId) => {
-    if (!file) return;
-    const storage = getStorage();
-    const storageRef = ref(storage, "booking/" + nameId);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            console.log("nothing");
-        }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const listImage = [...imageFiles];
-          listImage.push({
-            nameId: nameId,
-            url: downloadURL,
-          });
-          setImageFiles(listImage);
-          console.log("File available at", downloadURL);
-        });
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        reject("No file provided");
+        return;
       }
-    );
+
+      const storage = getStorage();
+      const storageRef = ref(storage, "booking/" + nameId);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Handle progress updates
+        },
+        (error) => {
+          // Handle unsuccessful upload
+          reject(error);
+        },
+        () => {
+          // Handle successful upload
+          getDownloadURL(uploadTask.snapshot.ref)
+            .then((downloadURL) => {
+              resolve({ file, nameId, url: downloadURL });
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      );
+    });
   };
 
-  const handleFileInput = (e) => {
+  const handleFileInput = async (e) => {
     if (imageFiles.length >= 6) return;
     const filesList = e.target.files;
     if (filesList.length >= 6) return;
-    // const list = [];
 
-    for (let i = 0; i < filesList.length; i++) {
-      //   const url = URL.createObjectURL(filesList[i]);
-      //   list.push({ file: filesList[i], url: url });
+    const uploadPromises = Array.from(filesList).map(async (file) => {
       const nameId = uuidv4();
-      handleUploadImage(filesList[i], nameId);
+      const uploadedFile = await handleUploadImage(file, nameId);
+      return { ...uploadedFile, file };
+    });
+
+    try {
+      const uploadedFiles = await Promise.all(uploadPromises);
+
+      // Retrieve the download URLs
+      const downloadURLPromises = uploadedFiles.map((uploadedFile) => {
+        const { file, nameId } = uploadedFile;
+        return getDownloadURL(ref(getStorage(), "booking/" + nameId))
+          .then((downloadURL) => {
+            return { ...uploadedFile, url: downloadURL };
+          })
+          .catch((error) => {
+            // Handle errors if fetching download URL fails
+            return { ...uploadedFile, url: "" };
+          });
+      });
+
+      const updatedFiles = await Promise.all(downloadURLPromises);
+
+      // Update the state with the final list of uploaded files
+      const updatedList = [...imageFiles, ...updatedFiles];
+      setImageFiles(updatedList);
+    } catch (error) {
+      // Handle errors if any upload or download URL fetch fails
     }
-    // setImageFiles([...imageFiles, ...list]);
   };
 
   const handleDeleteImage = (item) => {
-    let listImage = [];
-    listImage = imageFiles.filter(
+    const listImage = imageFiles.filter(
       (image) => image.file.name !== item.file.name
     );
     setImageFiles(listImage);
