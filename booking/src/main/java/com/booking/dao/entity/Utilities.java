@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.booking.common.enums.Icon;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,17 +24,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "amenities")
-public class Amenities extends BaseEntity{
+@Table(name = "utilities")
+public class Utilities extends BaseEntity{
 	@Id
 	@GenericGenerator(name = "id_gen", strategy = "com.booking.common.utils.GenerateUUID")
 	@GeneratedValue(generator = "id_gen")
-	@Column(name = "amenities_id", nullable = false)
+	@Column(name = "utilities_id", nullable = false)
 	private String id;
-
-	@Column(name = "icon")
-	@Enumerated(EnumType.STRING)
-	private Icon icon;
 
 	@Column(name = "name", nullable = false)
 	private String name;

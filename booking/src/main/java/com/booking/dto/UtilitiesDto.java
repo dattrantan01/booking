@@ -9,9 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AmenitiesDto {
+public class UtilitiesDto {
 	private String id;
-	private String icon;
 	private String name;
 	private String value;
 }

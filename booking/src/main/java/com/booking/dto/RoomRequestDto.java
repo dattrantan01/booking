@@ -19,7 +19,8 @@ public class RoomRequestDto {
 	private String roomName;
 	private String description;
 	private List<ImageDto> imagesDto;
-	private List<AmenitiesDto> amenitiesDto;
+	private List<UtilitiesDto> utilitiesDto;
+	private String amenities;
 	private String address;
 	private Integer provinceId;
 	private Integer districtId;

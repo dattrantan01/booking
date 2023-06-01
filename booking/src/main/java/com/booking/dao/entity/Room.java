@@ -41,8 +41,15 @@ public class Room extends BaseEntity {
     @Column(name = "room_name")
     private String roomName;
 
+    @Column(name = "amenities")
+    private String amenities;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_type_id", nullable = false)
+    private RoomType roomType;
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private List<Amenities> amenities = new ArrayList<>();
+    private List<Utilities> utilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>();

@@ -47,17 +47,16 @@ CREATE TABLE `image`
     CONSTRAINT `fk_image_room` FOREIGN KEY (room_id) REFERENCES room (room_id)
 );
 
-CREATE TABLE `amenities`
+CREATE TABLE `utilities`
 (
-    amenities_id VARCHAR(15),
+    utilities_id VARCHAR(15),
     room_id      VARCHAR(15),
-    icon         enum('nha','cua'),
     name         VARCHAR(255) NOT NULL,
     value        VARCHAR(255) NOT NULL,
     time_create  DATETIME DEFAULT CURRENT_TIMESTAMP,
     time_update  DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT PRIMARY KEY (amenities_id),
-    CONSTRAINT `fk_amenities_room` FOREIGN KEY (room_id) REFERENCES room (room_id)
+    CONSTRAINT PRIMARY KEY (utilities_id),
+    CONSTRAINT `fk_utilities_room` FOREIGN KEY (room_id) REFERENCES room (room_id)
 );
 
 CREATE TABLE `room_type`
@@ -79,6 +78,7 @@ CREATE TABLE `room`
 --     price_id       VARCHAR(15)  NOT NULL,
     room_name      VARCHAR(255) NOT NULL,
 --     average_rating DOUBLE,
+    amenities      VARCHAR(255),
     address        VARCHAR(255) NOT NULL,
     province_id    INT          NOT NULL,
     district_id    INT          NOT NULL,
