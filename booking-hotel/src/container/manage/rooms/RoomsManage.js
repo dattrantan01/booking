@@ -12,7 +12,7 @@ import usePagination from "../../../hooks/usePagination";
 const RoomsManage = () => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const userId = user.id;
+  const userId = user?.id;
   const [rooms, setRooms] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
@@ -49,11 +49,12 @@ const RoomsManage = () => {
         if (!res.data) return;
         const roomsList = res?.data.map((item) => {
           return {
-            id: item.id,
-            roomName: item.roomName,
-            roomType: item.roomTypeName,
-            address: `${item.address}, ${item.city}`,
-            Price: `${item.price}$`,
+            id: item?.id,
+            roomName: item?.roomName,
+            roomType: item?.roomTypeName,
+            address: `${item?.address}, ${item?.provinceName}`,
+            price: `${item?.price}$`,
+            max: item?.maxQuantityPeople,
           };
         });
 

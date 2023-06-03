@@ -52,9 +52,9 @@ public class Room extends BaseEntity {
     private Double price;
 
     @Column(name = "average_rating")
-    private Double averageRating = 0.0;
+    private Double averageRating;
 
-    @Column(name = "max_quantity_people")
+    @Column(name = "max_quantity_people", columnDefinition = "0.0")
     private Integer maxQuantityPeople;
 
     @Column(name = "animal")
@@ -86,6 +86,6 @@ public class Room extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "enable")
+    @Column(name = "enable", columnDefinition = "1")
     private Boolean enable;
 }

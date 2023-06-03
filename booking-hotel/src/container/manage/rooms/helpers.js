@@ -1,4 +1,4 @@
-export const head = ["Name", "Room Type", "Address", "Price"];
+export const head = ["Name", "Room Type", "Address", "Price", "Max Persons"];
 
 export const fakeData = [
   {
