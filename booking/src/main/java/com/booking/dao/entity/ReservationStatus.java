@@ -2,13 +2,8 @@ package com.booking.dao.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -20,18 +15,18 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "reservation_status")
 @Getter
 @Setter
-@Entity
-@Table(name = "image")
-public class Image extends BaseEntity{
+public class ReservationStatus extends BaseEntity{
+
 	@Id
 	@GenericGenerator(name = "id_gen", strategy = "com.booking.common.utils.GenerateUUID")
 	@GeneratedValue(generator = "id_gen")
-	@Column(name = "image_id")
+	@Column(name = "reservation_status_id", nullable = false)
 	private String id;
 
-	@Lob
-	@Column(name = "url")
-	private String url;
+	@Column(name = "reservation_status_name", nullable = false)
+	private String reservationStatusName;
 }

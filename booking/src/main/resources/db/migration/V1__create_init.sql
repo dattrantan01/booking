@@ -73,21 +73,23 @@ CREATE TABLE `room_type`
 
 CREATE TABLE `room`
 (
-    room_id        VARCHAR(15),
-    room_type_id   VARCHAR(15),
---     price_id       VARCHAR(15)  NOT NULL,
-    room_name      VARCHAR(255) NOT NULL,
---     average_rating DOUBLE,
-    amenities      VARCHAR(255),
-    address        VARCHAR(255) NOT NULL,
-    province_id    INT          NOT NULL,
-    district_id    INT          NOT NULL,
-    ward_id        INT          NOT NULL,
-    description    TEXT,
-    customer_id    VARCHAR(15)  NOT NULL,
-    enable         BOOLEAN,
-    time_create    DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update    DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    room_id             VARCHAR(15),
+    room_type_id        VARCHAR(15),
+    price               DOUBLE  NOT NULL,
+    room_name           VARCHAR(255) NOT NULL,
+    average_rating      DOUBLE,
+    amenities           VARCHAR(255),
+    max_quantity_people INT,
+    animal              BOOLEAN,
+    address             VARCHAR(255) NOT NULL,
+    province_id         INT          NOT NULL,
+    district_id         INT          NOT NULL,
+    ward_id             INT          NOT NULL,
+    description         TEXT,
+    customer_id         VARCHAR(15)  NOT NULL,
+    enable              BOOLEAN,
+    time_create         DATETIME DEFAULT CURRENT_TIMESTAMP,
+    time_update         DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT PRIMARY KEY (room_id),
     CONSTRAINT `fk_room_room_type` FOREIGN KEY (room_type_id) REFERENCES room_type (room_type_id),
 --     CONSTRAINT `fk_room_price` FOREIGN KEY (price_id) REFERENCES price (price_id),
@@ -118,16 +120,6 @@ CREATE TABLE `reservation_status`
     CONSTRAINT PRIMARY KEY (reservation_status_id)
 );
 
-CREATE TABLe `quantity_people`
-(
-    quantity_people_id  VARCHAR(15),
-    max_quantity_people INT,
-    animal              BOOLEAN,
-    time_create         DATETIME DEFAULT CURRENT_TIMESTAMP,
-    time_update         DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT PRIMARY KEY (quantity_people_id)
-);
-
 CREATE TABLE `reservation`
 (
     reservation_id        VARCHAR(15),
@@ -135,7 +127,8 @@ CREATE TABLE `reservation`
     customer_id           VARCHAR(15) NOT NULL,
     start_date            TIMESTAMP   NOT NULL,
     end_date              TIMESTAMP   NOT NULL,
-    quantity_people_id    VARCHAR(15) NOT NULL,
+    quantity_people       INT,
+    animal                BOOLEAN,
     reservation_status_id VARCHAR(15) NOT NULL,
     total                 DOUBLE      NOT NULL,
     deposit               DOUBLE      NOT NULL,
@@ -145,7 +138,6 @@ CREATE TABLE `reservation`
     time_update           DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT PRIMARY KEY (reservation_id),
     CONSTRAINT `fk_reservation_room` FOREIGN KEY (room_id) REFERENCES room (room_id),
-    CONSTRAINT `fk_reservation_quantity_people` FOREIGN KEY (quantity_people_id) REFERENCES quantity_people (quantity_people_id),
     CONSTRAINT `fk_reservation_customer` FOREIGN KEY (customer_id) REFERENCES customer (customer_id),
     CONSTRAINT `fk_reservation_reservation_status` FOREIGN KEY (reservation_status_id) REFERENCES reservation_status (reservation_status_id)
 );
@@ -188,13 +180,13 @@ VALUES ('FWFQPJnNcKjrXaU', 'Gr68kjDGZaHJWan',
         'A working environment which provides office facilities for a variety of different people, from different businesses', '2020-01-01 10:10:10',
         '2020-01-01 10:10:10'),
        ('vU4NCWhTpy2Z6VC', 'QGUPnLT27DE7SGe',
-        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392634/room-type/ee40a621-bc6b-41fb-b7d1-2940ba8c2997/image_4_amgfj2.jpg', 'Event space',
+        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392634/room-type/ee40a621-bc6b-41fb-b7d1-2940ba8c2157/image_4_amgfj2.jpg', 'Event space',
         'A building used for the hosting of weddings, conferences, galas, and other similar events.', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
        ('LaQHtGeE83fur87', 'mhmZgS5Qvgxnja8',
         'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667392856/room-type/65cf6708-11c6-4ff2-83b7-e2a05f8ab246/image_5_gn2c46.jpg', 'Cubicle farm',
         'A large open-plan office divided into cubicles for individual workers.', '2020-01-01 10:10:10', '2020-01-01 10:10:10'),
        ('uH2S3UZrUzAtuMk', 'tMdbC9ADcY9sCVx',
-        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667393209/room-type/32712088-1298-4755-8ddb-950499a54974/image_6_pr8bcw.jpg', 'Huddle room',
+        'https://res.cloudinary.com/dpom2eaqn/image/upload/v1667393209/room-type/32712088-1298-4755-8ddb-950415a54974/image_6_pr8bcw.jpg', 'Huddle room',
         'A small space, meant for one to four people, generally informal, and most importantly private.', '2020-01-01 10:10:10', '2020-01-01 10:10:10');
 INSERT INTO `customer`
 VALUES ('7nX2Hy4Ygf6yoW6', 'Thai Luc', 'thaitangluc2412@gmail.com',

@@ -2,6 +2,7 @@ package com.booking.common.utils;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.UUID;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

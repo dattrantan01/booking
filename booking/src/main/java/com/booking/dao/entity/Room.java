@@ -48,10 +48,24 @@ public class Room extends BaseEntity {
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomType roomType;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @Column(name = "price")
+    private Double price;
+
+    @Column(name = "average_rating")
+    private Double averageRating = 0.0;
+
+    @Column(name = "max_quantity_people")
+    private Integer maxQuantityPeople;
+
+    @Column(name = "animal")
+    private Boolean animal;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "room_id")
     private List<Utilities> utilities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "room_id")
     private List<Image> images = new ArrayList<>();
 
     @Column(name = "address", nullable = false)

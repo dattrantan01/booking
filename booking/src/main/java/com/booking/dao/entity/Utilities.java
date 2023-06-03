@@ -37,8 +37,4 @@ public class Utilities extends BaseEntity{
 
 	@Column(name = "value", nullable = false)
 	private String value;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "room_id", nullable = false)
-	private Room room;
 }

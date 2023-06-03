@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/v1/room-type")
+@RequestMapping("/api/room-type")
 public class RoomTypeController {
 
     @Autowired

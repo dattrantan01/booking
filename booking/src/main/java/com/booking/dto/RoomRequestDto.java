@@ -3,6 +3,8 @@ package com.booking.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,6 +20,11 @@ public class RoomRequestDto {
 	private String customerId;
 	private String roomName;
 	private String description;
+	private String roomTypeId;
+	private Double price;
+	private Double averageRating;
+	private Integer maxQuantityPeople;
+	private Boolean animal;
 	private List<ImageDto> imagesDto;
 	private List<UtilitiesDto> utilitiesDto;
 	private String amenities;
