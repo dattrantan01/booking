@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import static com.booking.common.constant.SecurityConstant.HEADER_NAME;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 public class CustomerController {
 
 	@Autowired

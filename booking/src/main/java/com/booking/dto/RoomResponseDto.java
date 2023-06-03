@@ -21,6 +21,7 @@ public class RoomResponseDto {
 	private String description;
 	private String roomTypeName;
 	private Double averageRating;
+	private Boolean enable;
 	List<ImageDto> imageDtos;
 	List<UtilitiesDto> utilitiesDtos;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")

@@ -32,6 +32,7 @@ public class RoomRequestDto {
 	private Integer provinceId;
 	private Integer districtId;
 	private Integer wardId;
+	private Boolean enable;
 	private LocalDateTime timeCreate;
 	private LocalDateTime timeUpdate;
 }

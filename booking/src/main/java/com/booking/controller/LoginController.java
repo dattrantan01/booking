@@ -13,7 +13,7 @@ import com.booking.dto.LoginResponseDto;
 import com.booking.service.LoginService;
 
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/auth")
 class LoginController {
 
 	@Autowired

@@ -85,4 +85,7 @@ public class Room extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "enable")
+    private Boolean enable;
 }
