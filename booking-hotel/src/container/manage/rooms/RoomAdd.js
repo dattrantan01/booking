@@ -18,6 +18,8 @@ import { amenitiesOptions } from "./helpers";
 import http from "../../../config/axiosConfig";
 import { toast } from "react-toastify";
 import Button from "../../../components/button/Button";
+import Toggle from "../../../components/toggle/Toggle";
+import { useAuth } from "../../../context/authContext";
 
 const schema = yup
   .object({
@@ -28,6 +30,7 @@ const schema = yup
   .required();
 
 const RoomAdd = () => {
+  const { user } = useAuth();
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
   const [cities, setCites] = useState([]);
@@ -58,6 +61,8 @@ const RoomAdd = () => {
 
   const { utilities, handleAddUtility, handleClearUtility, setUtilities } =
     useUtilities(unregister);
+
+  const watchAnimal = watch("animal");
 
   useEffect(() => {
     http
@@ -147,15 +152,20 @@ const RoomAdd = () => {
         url: item?.url,
       };
     });
+    const id = user?.id;
 
     const locationAdd = {
-      address: values.address,
-      cityId: values.city,
+      customerId: id,
+      address: `${values.address},  ${wardsName}, ${districtName}`,
+      provinceId: values.city,
       districtId: values.district,
-      wardsId: values.wards,
-      name: values.roomName,
+      roomTypeId: values.roomTypeId,
+      wardId: values.wards,
+      roomName: values.roomName,
       price: +values.price,
       description: values.desc,
+      maxQuantityPeople: +values.maxQuantityPeople,
+      animal: values.animal,
       utilities: utilitiesAdding,
       imagesDto: imageFilesAdding,
     };
@@ -168,27 +178,27 @@ const RoomAdd = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        reset({
-          address: "",
-          cityId: "",
-          districtId: "",
-          wardsId: "",
-          name: "",
-          price: "",
-          description: "",
-        });
-        setWardsName("");
-        setDistrictName("");
-        setCityName("");
-        setUtilities([
-          {
-            name: `nameUtility0`,
-            value: `valueUtility0`,
-            index: 0,
-          },
-        ]);
-        setRoomTypesName("");
-        setImageFiles([]);
+        // reset({
+        //   address: "",
+        //   cityId: "",
+        //   districtId: "",
+        //   wardsId: "",
+        //   name: "",
+        //   price: "",
+        //   description: "",
+        // });
+        // setWardsName("");
+        // setDistrictName("");
+        // setCityName("");
+        // setUtilities([
+        //   {
+        //     name: `nameUtility0`,
+        //     value: `valueUtility0`,
+        //     index: 0,
+        //   },
+        // ]);
+        // setRoomTypesName("");
+        // setImageFiles([]);
         console.error("err", err);
       });
   };
@@ -330,6 +340,16 @@ const RoomAdd = () => {
           <Field>
             <Label>Price</Label>
             <Input type="number" name={"price"} control={control} />
+          </Field>
+
+          <Field>
+            <Label>Max People</Label>
+            <Input type="number" name={"maxQuantityPeople"} control={control} />
+          </Field>
+          <Field>
+            <Toggle name="animal" control={control} checked={watchAnimal}>
+              Animal
+            </Toggle>
           </Field>
         </div>
       </div>

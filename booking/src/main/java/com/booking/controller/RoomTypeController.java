@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/room-types")
+@RequestMapping("/api/room-types")
 public class RoomTypeController {
 
     @Autowired
