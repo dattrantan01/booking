@@ -11,4 +11,7 @@ public interface RoomTypeMapper {
 
     @Mapping(source = "id", target = "id")
     RoomType roomTypeDtoToRoomType(RoomTypeDto roomTypeDto);
+
+    @Mapping(source = "id", target = "id")
+    RoomTypeDto roomTypeToRoomTypeDto(RoomType roomType);
 }

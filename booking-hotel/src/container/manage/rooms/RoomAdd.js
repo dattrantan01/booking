@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -7,24 +7,39 @@ import Field from "../../../components/field/Field";
 import Label from "../../../components/label/Label";
 import Input from "../../../components/input/Input";
 import Dropdown from "../../../components/dropdown/Dropdown";
+import List from "../../../components/dropdown/List";
+import Option from "../../../components/dropdown/Option";
 import Select from "../../../components/dropdown/Select";
-import UploadImages from "../../../components/uploadImages/UploadImages";
+
 import UploadImage from "../../../components/uploadImages/UploadImage";
 import { MultiSelect } from "react-multi-select-component";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { amenitiesOptions } from "./helpers";
+import http from "../../../config/axiosConfig";
+import { toast } from "react-toastify";
+import Button from "../../../components/button/Button";
 
 const schema = yup
   .object({
     roomName: yup.string().required("Please enter your name location"),
     address: yup.string().required("Please enter your address of location"),
-    dayPrice: yup.string().required("Please enter day price of location"),
+    price: yup.string().required("Please enter day price of location"),
   })
   .required();
 
 const RoomAdd = () => {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [cities, setCites] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
+  const [roomTypesName, setRoomTypesName] = useState();
+  const [cityName, setCityName] = useState("");
+  const [districtName, setDistrictName] = useState("");
+  const [wardsName, setWardsName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     handleSubmit,
     control,
@@ -44,11 +59,139 @@ const RoomAdd = () => {
   const { utilities, handleAddUtility, handleClearUtility, setUtilities } =
     useUtilities(unregister);
 
-  const addNewRoom = (values) => {
-    console.log(imageFiles);
+  useEffect(() => {
+    http
+      .get(`address/provinces`)
+      .then((res) => {
+        setCites(res?.data);
+      })
+      .catch((err) => {
+        console.error("cities err", err);
+      });
+    http
+      .get(`room-types`)
+      .then((res) => {
+        setRoomTypes(res?.data);
+      })
+      .catch((err) => {
+        console.error("roomTypes err", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const errorsList = Object.values(errors);
+    if (errorsList.length > 0) {
+      toast.error(errorsList[0]?.message);
+    }
+  }, [errors]);
+
+  const handleClickRoomType = (room) => {
+    setRoomTypesName(room.name);
+    setValue("roomTypeId", room.id);
   };
 
-  console.log(amenitiesOptions);
+  const handleClickCity = async (city) => {
+    setValue("city", city.code);
+    setCityName(city.name);
+    setDistrictName("");
+    setWardsName("");
+    setWards([]);
+    const res = await http.get(`address/districts/${city.code}`);
+    setDistricts(res?.data);
+  };
+
+  const handleClickDistrict = async (district) => {
+    setValue("district", district.code);
+    setDistrictName(district.name);
+    setWardsName("");
+    const res = await http.get(`address/wards/${district.code}`);
+    setWards(res?.data);
+  };
+
+  const handleClickWard = (ward) => {
+    setWardsName(ward.name);
+    setValue("wards", ward.code);
+  };
+
+  const utilitiesAdd = () => {
+    let checkError = false;
+
+    for (let i = 0; i < utilities.length; i++) {
+      const name = getValues(`${utilities[i].name}`);
+      const value = getValues(`${utilities[i].value}`);
+      if (!name || !value || isNaN(value)) {
+        checkError = !checkError;
+        break;
+      }
+    }
+    if (checkError) {
+      toast.error("Utility name required and value must be number");
+      return;
+    }
+    const utilitiesAdd = [];
+    utilities.forEach((item) => {
+      utilitiesAdd.push({
+        name: getValues(`${item.name}`),
+        value: getValues(`${item.value}`),
+      });
+    });
+
+    return utilitiesAdd;
+  };
+
+  const addNewRoom = (values) => {
+    setIsLoading(true);
+    const utilitiesAdding = utilitiesAdd();
+    const imageFilesAdding = imageFiles.map((item) => {
+      return {
+        url: item?.url,
+      };
+    });
+
+    const locationAdd = {
+      address: values.address,
+      cityId: values.city,
+      districtId: values.district,
+      wardsId: values.wards,
+      name: values.roomName,
+      price: +values.price,
+      description: values.desc,
+      utilities: utilitiesAdding,
+      imagesDto: imageFilesAdding,
+    };
+
+    http
+      .post("rooms", locationAdd)
+      .then((res) => {
+        toast.success("success");
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        reset({
+          address: "",
+          cityId: "",
+          districtId: "",
+          wardsId: "",
+          name: "",
+          price: "",
+          description: "",
+        });
+        setWardsName("");
+        setDistrictName("");
+        setCityName("");
+        setUtilities([
+          {
+            name: `nameUtility0`,
+            value: `valueUtility0`,
+            index: 0,
+          },
+        ]);
+        setRoomTypesName("");
+        setImageFiles([]);
+        console.error("err", err);
+      });
+  };
 
   return (
     <form onSubmit={handleSubmit(addNewRoom)}>
@@ -66,36 +209,32 @@ const RoomAdd = () => {
         <Field>
           <Label>Room Type</Label>
           <Dropdown>
-            {/* <Select placeholder={roomTypesName || "Room Types"}></Select> */}
-            <Select />
-            {/* <List>
-                  {roomTypes.map((room) => (
-                    <Option
-                      key={room.id}
-                      onClick={() => handleClickRoomType(room)}
-                    >
-                      {room.roomTypeName}
-                    </Option>
-                  ))}
-                </List> */}
+            <Select placeholder={roomTypesName || ""} />
+            <List>
+              {roomTypes.map((room) => (
+                <Option key={room.id} onClick={() => handleClickRoomType(room)}>
+                  {room.name}
+                </Option>
+              ))}
+            </List>
           </Dropdown>
         </Field>
         <div className="w-full">
           <Field>
             <Label name="address">Address</Label>
             <Dropdown>
-              <Select></Select>
-              {/* <List>
+              <Select placeholder={cityName || "Province"} />
+              <List>
                 {cities.map((city) => (
                   <Option key={city.code} onClick={() => handleClickCity(city)}>
                     {city.name}
                   </Option>
                 ))}
-              </List> */}
+              </List>
             </Dropdown>
             <Dropdown>
-              <Select></Select>
-              {/* <List>
+              <Select placeholder={districtName || "District"} />
+              <List>
                 {districts.map((district) => (
                   <Option
                     key={district.code}
@@ -104,17 +243,17 @@ const RoomAdd = () => {
                     {district.name}
                   </Option>
                 ))}
-              </List> */}
+              </List>
             </Dropdown>
             <Dropdown>
-              <Select></Select>
-              {/* <List>
-                {wards.map((ward) => (
-                  <Option key={ward.code} onClick={() => handleClickWard(ward)}>
+              <Select placeholder={wardsName || "Ward"} />
+              <List>
+                {wards.map((ward, index) => (
+                  <Option key={index} onClick={() => handleClickWard(ward)}>
                     {ward.name}
                   </Option>
                 ))}
-              </List> */}
+              </List>
             </Dropdown>
             <Input
               type="text"
@@ -154,10 +293,10 @@ const RoomAdd = () => {
                       />
                     </Field>
                     <Field>
-                      <Label name={`priceUtility${utility.index}`}>Value</Label>
+                      <Label name={`valueUtility${utility.index}`}>Value</Label>
                       <Input
                         type="text"
-                        name={`priceUtility${utility.index}`}
+                        name={`valueUtility${utility.index}`}
                         control={control}
                       />
                     </Field>
@@ -187,11 +326,17 @@ const RoomAdd = () => {
             onChange={setSelectedAmenities}
             hasSelectAll={false}
           />
+
+          <Field>
+            <Label>Price</Label>
+            <Input type="number" name={"price"} control={control} />
+          </Field>
         </div>
       </div>
-      <div className="max-w-[1200px] w-full h-[220px]">
-        <UploadImage />
+      <div className="max-w-[1200px] w-full h-[220px] mb-5">
+        <UploadImage imageFiles={imageFiles} setImageFiles={setImageFiles} />
       </div>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };

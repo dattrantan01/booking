@@ -16,9 +16,7 @@ import { v4 as uuidv4 } from "uuid";
 //     url: ""
 // }
 
-const UploadImage = () => {
-  const [imageFiles, setImageFiles] = useState([]);
-
+const UploadImage = ({ imageFiles, setImageFiles }) => {
   const handleUploadImage = (file, nameId) => {
     return new Promise((resolve, reject) => {
       if (!file) {

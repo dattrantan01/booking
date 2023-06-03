@@ -8,6 +8,9 @@ import com.booking.service.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class RoomTypeServiceImpl implements RoomTypeService {
 
@@ -22,4 +25,12 @@ public class RoomTypeServiceImpl implements RoomTypeService {
         RoomType roomType = roomTypeMapper.roomTypeDtoToRoomType(roomTypeDto);
         roomTypeRepository.save(roomType);
     }
+
+    @Override
+    public List<RoomTypeDto> getAllRoomType() {
+        return roomTypeRepository.findAll().stream().map(roomType -> roomTypeMapper.roomTypeToRoomTypeDto(roomType)).collect(
+                Collectors.toList());
+    }
+
+
 }

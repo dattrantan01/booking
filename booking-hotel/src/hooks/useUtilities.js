@@ -5,7 +5,7 @@ export default function useUtilities(unregister = () => {}) {
   const [utilities, setUtilities] = useState([
     {
       name: `nameUtility0`,
-      price: `priceUtility0`,
+      value: `valueUtility0`,
       index: 0,
     },
   ]);
@@ -15,13 +15,14 @@ export default function useUtilities(unregister = () => {}) {
       ...utilities,
       {
         name: `nameUtility${utilities.length}`,
-        price: `priceUtility${utilities.length}`,
+        value: `valueUtility${utilities.length}`,
         index: utilities.length,
       },
     ];
     setCount((prev) => prev + 1);
     setUtilities(utilitiesList);
   };
+
   const handleClearUtility = (utility) => {
     let utilitiesList = [...utilities];
     utilitiesList = utilitiesList.filter((item) => {
@@ -31,10 +32,11 @@ export default function useUtilities(unregister = () => {}) {
       return (item.index = index);
     });
     unregister(`nameUtility${utilitiesList.length}`);
-    unregister(`priceUtility${utilitiesList.length}`);
+    unregister(`valueUtility${utilitiesList.length}`);
     setUtilities(utilitiesList);
     setCount((prev) => prev - 1);
   };
+
   return {
     utilities,
     handleAddUtility,
