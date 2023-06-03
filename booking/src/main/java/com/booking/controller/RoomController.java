@@ -3,6 +3,7 @@ package com.booking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.booking.dto.RoomRequestDto;
 import com.booking.dto.RoomResponseDto;
@@ -45,6 +44,13 @@ public class RoomController {
 		@RequestParam(required = false) String minPrice, @RequestParam(required = false) String maxPrice) {
 		List<RoomResponseDto> rooms = roomService.getWithFilter(typeRoomId, provinceId, roomName, cityName, minPrice, maxPrice);
 		return new ResponseEntity<>(rooms, HttpStatus.OK);
+	}
+
+	@GetMapping("/{roomId}")
+	public ResponseEntity<RoomResponseDto> getDetail(@PathVariable String roomId, @RequestParam(required = false) String customerId) throws
+		ChangeSetPersister.NotFoundException {
+		RoomResponseDto roomResponseDto = roomService.findByRoomId(roomId, customerId);
+		return ResponseEntity.status(HttpStatus.OK).body(roomResponseDto);
 	}
 
 	@GetMapping("/get-by-customer-id/{id}")
