@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import com.booking.dao.entity.Reservation;
+import com.booking.dao.hibernate.ReservationDao;
 import com.booking.dao.repository.ReservationRepository;
 import com.booking.dto.ReservationRequestDto;
 import com.booking.dto.ReservationResponseDto;
@@ -26,6 +28,9 @@ public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	private ReservationStatusService reservationStatusService;
 
+	@Autowired
+	private ReservationDao reservationDao;
+
 	@Override
 	public ReservationRequestDto createReservation(ReservationRequestDto reservationDto) {
 		reservationRepository.save(reservationMapper.reservationRequestDtoToReservation(reservationDto));
@@ -42,5 +47,10 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override public List<ReservationResponseDto> getByStatusName(String statusName) {
 		return reservationRepository.findByReservationStatusReservationStatusName(statusName).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
 			Collectors.toList());
+	}
+
+	@Override
+	public String getFurthestValidDate(String roomId, String from) throws ChangeSetPersister.NotFoundException {
+		return reservationDao.getFurthestValidDate(roomId, from);
 	}
 }

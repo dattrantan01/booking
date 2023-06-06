@@ -1,11 +1,13 @@
 package com.booking.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
 
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,4 +89,24 @@ public class ReservationController {
 		reservationService.updateReservation(id, reservationStatusName);
 		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}
+
+	@GetMapping("/furthest_valid_date/{roomId}")
+	public ResponseEntity<String> getFurthestValidDate(@PathVariable String roomId, @RequestParam String from) throws ChangeSetPersister.NotFoundException {
+		System.out.println("# Date : " + from);
+		String furthestValidDate = reservationService.getFurthestValidDate(roomId, from);
+		return new ResponseEntity<>(furthestValidDate, HttpStatus.OK);
+	}
+
+//	@GetMapping("/date_status/{roomId}")
+//	public ResponseEntity<List<DateStatus>> getDateStatus(@PathVariable String roomId, @RequestParam int month, @RequestParam int year)
+//		throws ChangeSetPersister.NotFoundException {
+//		List<DateStatus> dateStatus = reservationService.getDateStatus(roomId, month, year);
+//		return new ResponseEntity<>(dateStatus, HttpStatus.OK);
+//	}
+//
+//	@GetMapping("/get_invalid_date/{roomId}")
+//	public ResponseEntity<?> getAllInvalidDates(@PathVariable String roomId) throws ChangeSetPersister.NotFoundException {
+//		List<LocalDate> dates = new ArrayList<>(reservationService.getAllInvalidDate(roomId));
+//		return new ResponseEntity<>(dates, HttpStatus.OK);
+//	}
 }
