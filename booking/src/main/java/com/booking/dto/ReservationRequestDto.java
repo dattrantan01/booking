@@ -17,7 +17,7 @@ public class ReservationRequestDto {
 	private String id;
 	private String roomId;
 	private String customerId;
-	private String reservationStatusId;
+	private String reservationStatusId = "eT4CxDVeDhP4TsF";
 	private Double price;
 	private Double averageRating;
 	private Integer quantityPeople;
@@ -25,7 +25,7 @@ public class ReservationRequestDto {
 	private String startDate;
 	private String endDate;
 	private Double total;
-	private Double deposit;
+	private Double fee;
 	private LocalDateTime timeCreate;
 	private LocalDateTime timeUpdate;
 }

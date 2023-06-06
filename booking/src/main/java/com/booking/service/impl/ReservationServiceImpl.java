@@ -13,6 +13,7 @@ import com.booking.dao.repository.ReservationRepository;
 import com.booking.dto.ReservationRequestDto;
 import com.booking.dto.ReservationResponseDto;
 import com.booking.mapper.ReservationMapper;
+import com.booking.sdo.DateStatus;
 import com.booking.service.ReservationService;
 import com.booking.service.ReservationStatusService;
 
@@ -52,5 +53,10 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public String getFurthestValidDate(String roomId, String from) throws ChangeSetPersister.NotFoundException {
 		return reservationDao.getFurthestValidDate(roomId, from);
+	}
+
+	@Override
+	public List<DateStatus> getDateStatus(String roomId, int month, int year) throws ChangeSetPersister.NotFoundException {
+		return reservationDao.getDateStatus(roomId, month, year);
 	}
 }

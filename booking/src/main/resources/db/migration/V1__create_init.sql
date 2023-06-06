@@ -131,7 +131,7 @@ CREATE TABLE `reservation`
     animal                BOOLEAN,
     reservation_status_id VARCHAR(15) NOT NULL,
     total                 DOUBLE      NOT NULL,
-    deposit               DOUBLE      NOT NULL,
+    fee               DOUBLE      NOT NULL,
     reviewed              BOOLEAN,
     enable                BOOLEAN,
     time_create           DATETIME DEFAULT CURRENT_TIMESTAMP,

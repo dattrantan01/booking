@@ -23,6 +23,7 @@ import com.booking.dao.entity.Reservation;
 import com.booking.dao.repository.ReservationRepository;
 import com.booking.dto.ReservationRequestDto;
 import com.booking.dto.ReservationResponseDto;
+import com.booking.sdo.DateStatus;
 import com.booking.service.ReservationService;
 
 import lombok.AllArgsConstructor;
@@ -97,12 +98,12 @@ public class ReservationController {
 		return new ResponseEntity<>(furthestValidDate, HttpStatus.OK);
 	}
 
-//	@GetMapping("/date_status/{roomId}")
-//	public ResponseEntity<List<DateStatus>> getDateStatus(@PathVariable String roomId, @RequestParam int month, @RequestParam int year)
-//		throws ChangeSetPersister.NotFoundException {
-//		List<DateStatus> dateStatus = reservationService.getDateStatus(roomId, month, year);
-//		return new ResponseEntity<>(dateStatus, HttpStatus.OK);
-//	}
+	@GetMapping("/date_status/{roomId}")
+	public ResponseEntity<List<DateStatus>> getDateStatus(@PathVariable String roomId, @RequestParam int month, @RequestParam int year)
+		throws ChangeSetPersister.NotFoundException {
+		List<DateStatus> dateStatus = reservationService.getDateStatus(roomId, month, year);
+		return new ResponseEntity<>(dateStatus, HttpStatus.OK);
+	}
 //
 //	@GetMapping("/get_invalid_date/{roomId}")
 //	public ResponseEntity<?> getAllInvalidDates(@PathVariable String roomId) throws ChangeSetPersister.NotFoundException {

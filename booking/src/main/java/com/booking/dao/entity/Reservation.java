@@ -63,8 +63,8 @@ public class Reservation extends BaseEntity{
 	@Column(name = "total", nullable = false)
 	private Double total;
 
-	@Column(name = "deposit", nullable = false)
-	private Double deposit;
+	@Column(name = "fee", nullable = false)
+	private Double fee;
 
 	@Column(name = "reviewed")
 	private Boolean reviewed = false;
