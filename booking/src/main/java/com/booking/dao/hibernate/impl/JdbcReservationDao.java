@@ -1,15 +1,18 @@
 package com.booking.dao.hibernate.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.booking.dao.hibernate.ReservationDao;
+import com.booking.mapper.DateMapper;
 import com.booking.mapper.DateStatusMapper;
 import com.booking.sdo.DateStatus;
 import com.booking.service.ReservationStatusService;
@@ -43,6 +46,31 @@ public class JdbcReservationDao implements ReservationDao {
 			ret = jdbcTemplateObject.queryForObject(GET_FURTHEST_VALID_DATE, String.class);
 		} catch (Exception e) {
 			System.out.println("dont have furthest valid date");
+		}
+		return ret;
+	}
+
+	@Override
+	public List<LocalDate> getAllInvalidDates(String roomId) throws ChangeSetPersister.NotFoundException {
+		String reservationStatusId = reservationStatusService.findByReservationStatusName("APPROVED").getId();
+		List<LocalDate> ret = new ArrayList<>();
+		final String sql = "SELECT DISTINCT gen_date AS date FROM \n" +
+			"(SELECT ADDDATE('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date FROM\n" +
+			" (SELECT 0 t0 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t0,\n" +
+			" (SELECT 0 t1 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t1,\n" +
+			" (SELECT 0 t2 union SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t2,\n" +
+			" (SELECT 0 t3 union SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t3,\n" +
+			" (SELECT 0 t4 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9) t4) v\n" +
+			"JOIN reservation ON \n" +
+			"gen_date >= DATE(start_date) AND gen_date <= DATE(end_date)\n" +
+			"AND room_id = '" + roomId + "'\n" +
+			"AND reservation_status_id = '" + reservationStatusId + "'\n" +
+			"ORDER BY date";
+		System.out.println(sql);
+		try {
+			ret.addAll(jdbcTemplateObject.query(sql, new DateMapper()));
+		} catch (Exception e) {
+			System.out.println("error : " + e.getMessage());
 		}
 		return ret;
 	}

@@ -104,10 +104,10 @@ public class ReservationController {
 		List<DateStatus> dateStatus = reservationService.getDateStatus(roomId, month, year);
 		return new ResponseEntity<>(dateStatus, HttpStatus.OK);
 	}
-//
-//	@GetMapping("/get_invalid_date/{roomId}")
-//	public ResponseEntity<?> getAllInvalidDates(@PathVariable String roomId) throws ChangeSetPersister.NotFoundException {
-//		List<LocalDate> dates = new ArrayList<>(reservationService.getAllInvalidDate(roomId));
-//		return new ResponseEntity<>(dates, HttpStatus.OK);
-//	}
+
+	@GetMapping("/get_invalid_date/{roomId}")
+	public ResponseEntity<?> getAllInvalidDates(@PathVariable String roomId) throws ChangeSetPersister.NotFoundException {
+		List<LocalDate> dates = new ArrayList<>(reservationService.getAllInvalidDate(roomId));
+		return new ResponseEntity<>(dates, HttpStatus.OK);
+	}
 }

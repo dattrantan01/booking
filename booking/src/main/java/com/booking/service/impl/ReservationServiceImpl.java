@@ -1,5 +1,6 @@
 package com.booking.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,11 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override public List<ReservationResponseDto> getByStatusName(String statusName) {
 		return reservationRepository.findByReservationStatusReservationStatusName(statusName).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
 			Collectors.toList());
+	}
+
+	@Override
+	public List<LocalDate> getAllInvalidDate(String roomId) throws ChangeSetPersister.NotFoundException {
+		return reservationDao.getAllInvalidDates(roomId);
 	}
 
 	@Override
