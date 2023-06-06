@@ -49,6 +49,12 @@ public class ReservationController {
 		return new ResponseEntity<>(reservationResponseDtos, HttpStatus.OK);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<ReservationResponseDto> getById(@PathVariable String id) {
+		ReservationResponseDto reservationListDto = reservationService.getById(id);
+		return new ResponseEntity<>(reservationListDto, HttpStatus.OK);
+	}
+
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateReservation(@PathVariable String id, @RequestParam String reservationStatusName) {
 		Optional<Reservation> reservationOptional = reservationRepository.findById(id);

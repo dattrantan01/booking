@@ -18,7 +18,6 @@ public class ReservationRequestDto {
 	private String roomId;
 	private String customerId;
 	private String reservationStatusId = "eT4CxDVeDhP4TsF";
-	private Double price;
 	private Double averageRating;
 	private Integer quantityPeople;
 	private Boolean animal;

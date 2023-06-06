@@ -65,4 +65,10 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<DateStatus> getDateStatus(String roomId, int month, int year) throws ChangeSetPersister.NotFoundException {
 		return reservationDao.getDateStatus(roomId, month, year);
 	}
+
+	@Override public ReservationResponseDto getById(String id) {
+		ReservationResponseDto reservationListDto = reservationMapper.reservationToReservationResponseDto(
+			reservationRepository.getReferenceById(id));
+		return reservationListDto;
+	}
 }

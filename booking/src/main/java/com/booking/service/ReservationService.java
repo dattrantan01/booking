@@ -20,4 +20,6 @@ public interface ReservationService {
 	List<LocalDate> getAllInvalidDate(String roomId) throws ChangeSetPersister.NotFoundException;
 	String getFurthestValidDate(String roomId, String from) throws ChangeSetPersister.NotFoundException;
 	List<DateStatus> getDateStatus(String roomId, int month, int year) throws ChangeSetPersister.NotFoundException;
+	ReservationResponseDto getById(String id);
 }
+
