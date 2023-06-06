@@ -5,10 +5,14 @@ export const PATHS = {
   login: "/login",
   home: "/register",
   explore: "/explore",
+  bookings: "/bookings",
   roomDetails: "/room/:id",
+  reservationDetailWithSearchParams:
+    "/reservation/:roomId?start=startDate&end=endDate&quantity=guests",
+  reservationDetail: "/reservation/:roomId",
   dashboard: "/dashboard",
   rooms: "/manage/rooms",
   reservations: "/manage/reservation",
-  bookings: "/manage/bookings",
+  manageBookings: "/manage/bookings",
   roomAdd: "/manage/room-add",
 };

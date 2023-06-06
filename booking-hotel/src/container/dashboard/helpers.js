@@ -10,7 +10,7 @@ export const sidebarLinks = [
   },
   {
     title: "Booking",
-    url: PATHS.bookings,
+    url: PATHS.manageBookings,
     icon: <HiOutlineSquare3Stack3D />,
   },
   {

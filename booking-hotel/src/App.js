@@ -10,6 +10,8 @@ import DashBoardLayout from "./container/dashboard/DashBoardLayout";
 import DashboardPage from "./container/pages/dashboardPage/DashboardPage";
 import RoomsManage from "./container/manage/rooms/RoomsManage";
 import RoomAdd from "./container/manage/rooms/RoomAdd";
+import BookingLayout from "./container/bookingLayout/BookingLayout";
+import ReservationDetailPage from "./container/pages/ReservationDetailPage";
 
 function App() {
   return (
@@ -19,8 +21,12 @@ function App() {
           <Route path={PATHS.base} element={<HomePage />}></Route>
           <Route path={PATHS.explore} element={<ExplorePage />}></Route>
           <Route path={PATHS.roomDetails} element={<RoomDetails />}></Route>
+          <Route path={PATHS.bookings} element={<BookingLayout />}></Route>
+          <Route
+            path={PATHS.reservationDetail}
+            element={<ReservationDetailPage />}
+          ></Route>
         </Route>
-
         <Route element={<DashBoardLayout></DashBoardLayout>}>
           <Route
             path={PATHS.dashboard}

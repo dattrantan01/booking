@@ -166,7 +166,7 @@ const RoomAdd = () => {
       description: values.desc,
       maxQuantityPeople: +values.maxQuantityPeople,
       animal: values.animal,
-      utilities: utilitiesAdding,
+      utilitiesDto: utilitiesAdding,
       imagesDto: imageFilesAdding,
     };
 
