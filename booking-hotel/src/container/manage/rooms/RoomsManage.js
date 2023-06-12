@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Table from "../../../components/table/Table";
-import { fakeData, head } from "./helpers";
+import { head } from "./helpers";
 import { useAuth } from "../../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import http from "../../../config/axiosConfig";

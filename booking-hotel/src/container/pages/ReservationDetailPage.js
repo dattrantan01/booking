@@ -34,7 +34,7 @@ const ReservationDetailPage = () => {
     const formatStartDate = moment(dateStartDate).format("YYYY-MM-DD");
     const formatEndDate = moment(dateEndDate).format("YYYY-MM-DD");
 
-    await http.post(`/reservation`, {
+    await http.post(`/reservations`, {
       roomId: roomId,
       customerId: user?.id,
       quantityPeople: guests,

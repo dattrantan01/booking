@@ -6,6 +6,7 @@ export const PATHS = {
   home: "/register",
   explore: "/explore",
   bookings: "/bookings",
+  bookingsStatus: "/bookings/:status",
   roomDetails: "/room/:id",
   reservationDetailWithSearchParams:
     "/reservation/:roomId?start=startDate&end=endDate&quantity=guests",

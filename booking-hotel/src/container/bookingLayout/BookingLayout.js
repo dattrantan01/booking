@@ -1,25 +1,26 @@
 import React, { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/paths";
 
 const booking = [
   {
     name: "Pending",
-    url: "/booking/1",
+    url: PATHS.bookingsStatus.replace(":status", "pending"),
     color: "text-yellow-500",
   },
   {
     name: "Approved",
-    url: "/booking/2",
+    url: PATHS.bookingsStatus.replace(":status", "approved"),
     color: "text-green-500",
   },
   {
     name: "Reject",
-    url: "/booking/3",
+    url: PATHS.bookingsStatus.replace(":status", "reject"),
     color: "text-red-500",
   },
   {
     name: "Success",
-    url: "/booking/4",
+    url: PATHS.bookingsStatus.replace(":status", "success"),
     color: "text-purple-500",
   },
 ];
@@ -36,7 +37,7 @@ const BookingLayout = () => {
 
   return (
     <div className="w-full flex flex-col max-w-[1250px] mx-auto">
-      <div className="w-full flex flex-col h-fit shadow-lg rounded-lg mt-24 pt-5">
+      <div className="w-full flex flex-col h-fit shadow-lg rounded-lg mt-10 pt-5">
         <div className="w-full flex flex-row h-[60px] shadow-xl shadow-black-400/100">
           {booking.map((item, index) => {
             return (
@@ -47,7 +48,7 @@ const BookingLayout = () => {
                   `h-full w-[calc(100%/4)] font-semibold ${
                     item.color
                   } cursor-pointer hover:bg-green-100 flex justify-center items-center ${
-                    isActive ? "bg-green-50" : "bg-transparent"
+                    isActive ? "bg-green-200" : "bg-transparent"
                   }`
                 }
               >

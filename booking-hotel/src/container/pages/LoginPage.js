@@ -44,8 +44,8 @@ const LoginPage = () => {
     http
       .post("auth/login", value)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        setUser(res?.data.customerResponseDto);
+        localStorage.setItem("token", res?.data?.token);
+        setUser(res?.data?.customerResponseDto);
         navigate(-1);
       })
       .catch((err) => {
