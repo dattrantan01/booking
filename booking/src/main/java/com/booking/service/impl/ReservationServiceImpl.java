@@ -46,8 +46,8 @@ public class ReservationServiceImpl implements ReservationService {
 		reservationRepository.save(reservation);
 	}
 
-	@Override public List<ReservationResponseDto> getByStatusName(String statusName) {
-		return reservationRepository.findByReservationStatusReservationStatusName(statusName).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
+	@Override public List<ReservationResponseDto> getByCustomerIdAndStatusName(String statusName, String customerId) {
+		return reservationRepository.findByReservationStatusReservationStatusNameAndCustomerId(statusName, customerId).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
 			Collectors.toList());
 	}
 
@@ -70,5 +70,10 @@ public class ReservationServiceImpl implements ReservationService {
 		ReservationResponseDto reservationListDto = reservationMapper.reservationToReservationResponseDto(
 			reservationRepository.getReferenceById(id));
 		return reservationListDto;
+	}
+
+	@Override public List<ReservationResponseDto> getByOwnerIdAndStatusName(String ownerId, String statusName) {
+		return reservationDao.getByOwnerIdAndStatusName(ownerId,statusName).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
+			Collectors.toList());
 	}
 }

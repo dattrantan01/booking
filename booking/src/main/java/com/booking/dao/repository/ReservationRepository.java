@@ -10,5 +10,5 @@ import com.booking.dao.entity.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
 	List<Reservation> findByRoomIdAndReservationStatusReservationStatusName(String roomId, String reservationStatusName);
-	List<Reservation> findByReservationStatusReservationStatusName(String reservationStatusName);
+	List<Reservation> findByReservationStatusReservationStatusNameAndCustomerId(String reservationStatusName, String customerId);
 }

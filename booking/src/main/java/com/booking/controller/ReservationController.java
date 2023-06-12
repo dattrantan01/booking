@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.mail.MessagingException;
-
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +40,17 @@ public class ReservationController {
 		return new ResponseEntity<>(reservationService.createReservation(reservationDto), HttpStatus.OK);
 	}
 
-	@GetMapping("/{statusName}")
-	public ResponseEntity<List<ReservationResponseDto>> getByStatusName(@PathVariable String statusName){
-		List<ReservationResponseDto> reservationResponseDtos = reservationService.getByStatusName(statusName);
+	@GetMapping("/by-customer/{customerId}")
+	public ResponseEntity<List<ReservationResponseDto>> getByCustomerIdAndStatusName(@PathVariable String customerId, @RequestParam String statusName) {
+		List<ReservationResponseDto> reservationResponseDtos = reservationService.getByCustomerIdAndStatusName(statusName, customerId);
 
 		return new ResponseEntity<>(reservationResponseDtos, HttpStatus.OK);
+	}
+
+	@GetMapping("/by-owner/{ownerId}")
+	public ResponseEntity<List<ReservationResponseDto>> getBySellerId(@PathVariable String ownerId, @RequestParam String statusName) {
+		List<ReservationResponseDto> reservationDtos = reservationService.getByOwnerIdAndStatusName(ownerId, statusName);
+		return new ResponseEntity<>(reservationDtos, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -94,7 +98,7 @@ public class ReservationController {
 		}
 
 		reservationService.updateReservation(id, reservationStatusName);
-		return new ResponseEntity<>("Success",HttpStatus.OK);
+		return new ResponseEntity<>("Success", HttpStatus.OK);
 	}
 
 	@GetMapping("/furthest_valid_date/{roomId}")

@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.booking.dao.entity.Reservation;
 import com.booking.dao.hibernate.ReservationDao;
+import com.booking.dto.ReservationResponseDto;
 import com.booking.mapper.DateMapper;
 import com.booking.mapper.DateStatusMapper;
 import com.booking.sdo.DateStatus;
@@ -98,4 +101,15 @@ public class JdbcReservationDao implements ReservationDao {
 		return ret;
 	}
 
+	@Override public List<Reservation> getByOwnerIdAndStatusName(String ownerId, String statusName) {
+		final String GET_BY_OWNER_ID_AND_STATUS_NAME =
+			"SELECT reservation.* FROM reservation\n" +
+				"JOIN room ON reservation.room_id = room.room_id\n" +
+				"JOIN customer ON room.customer_id = customer.customer_id\n" +
+				"JOIN reservation_status ON reservation_status.reservation_status_id = reservation.reservation_status_id\n" +
+				"WHERE room.customer_id = ?1 AND reservation.enable = 1\n AND reservation_status.reservation_status_name = ?2\n" +
+				"ORDER BY reservation.time_create DESC";
+		Session session = entityManager.unwrap((Session.class));
+		return session.createNativeQuery(GET_BY_OWNER_ID_AND_STATUS_NAME, Reservation.class).setParameter(1, ownerId).setParameter(2, statusName).getResultList();
+	}
 }
