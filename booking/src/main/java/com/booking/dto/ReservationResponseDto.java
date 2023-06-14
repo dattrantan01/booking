@@ -18,6 +18,7 @@ import lombok.ToString;
 @ToString
 public class ReservationResponseDto {
 	private String id;
+	private String roomId;
 	private String reservationStatusName;
 	private String customerName;
 	private String email;
@@ -26,6 +27,8 @@ public class ReservationResponseDto {
 	private String address;
 	private String provinceName;
 	private Double total;
+	private Integer quantityPeople;
+	private Boolean animal;
 	private Boolean reviewed;
 	private String startDate;
 	private String endDate;

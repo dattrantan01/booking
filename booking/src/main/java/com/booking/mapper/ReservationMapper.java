@@ -28,5 +28,6 @@ public interface ReservationMapper {
 	@Mapping(source = "room.images", target = "images")
 	@Mapping(source = "startDate", target = "startDate", dateFormat = "yyyy-MM-dd")
 	@Mapping(source = "endDate", target = "endDate", dateFormat = "yyyy-MM-dd")
+	@Mapping(source = "room.id", target = "roomId")
 	ReservationResponseDto reservationToReservationResponseDto(Reservation reservation);
 }
