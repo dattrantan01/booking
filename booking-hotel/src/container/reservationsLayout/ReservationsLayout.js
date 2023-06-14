@@ -1,0 +1,68 @@
+import React, { useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/paths";
+
+const booking = [
+  {
+    name: "Pending",
+    url: PATHS.reservationsStatus.replace(":status", "pending"),
+    color: "text-yellow-500",
+  },
+  {
+    name: "Approved",
+    url: PATHS.reservationsStatus.replace(":status", "approved"),
+    color: "text-green-500",
+  },
+  {
+    name: "Reject",
+    url: PATHS.reservationsStatus.replace(":status", "reject"),
+    color: "text-red-500",
+  },
+  {
+    name: "Success",
+    url: PATHS.reservationsStatus.replace(":status", "success"),
+    color: "text-purple-500",
+  },
+];
+
+const ReservationsLayout = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+    return;
+  });
+
+  return (
+    <div className="w-full flex flex-col max-w-[1250px] mx-auto">
+      <div className="w-full flex flex-col h-fit shadow-lg rounded-lg pt-5">
+        <div className="w-full flex flex-row h-[60px] shadow-xl shadow-black-400/100">
+          {booking.map((item, index) => {
+            return (
+              <NavLink
+                key={index}
+                to={item.url}
+                className={({ isActive }) =>
+                  `h-full w-[calc(100%/4)] font-semibold ${
+                    item.color
+                  } cursor-pointer hover:bg-green-100 flex justify-center items-center ${
+                    isActive ? "bg-green-200" : "bg-transparent"
+                  }`
+                }
+              >
+                {item.name}
+              </NavLink>
+            );
+          })}
+        </div>
+      </div>
+      <div className="w-full min-h-[600px] shadow-lg">
+        <Outlet></Outlet>
+      </div>
+    </div>
+  );
+};
+
+export default ReservationsLayout;

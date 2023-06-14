@@ -87,11 +87,19 @@ const Header = () => {
         </span>
       </div>
       {show && (
-        <div
-          className="cursor-pointer px-3 py-3 w-[200px] absolute -bottom-8 right-1 translate- z-20 shadow-xl border-slate-200 border drop-shadow-2xl rounded-xl bg-white  hover:bg-purple-100"
-          onClick={handleSignInOut}
-        >
-          {user?.id ? <span>Sign out</span> : <span>Sign in</span>}
+        <div className="cursor-pointer w-[200px] absolute -bottom-8 right-1 translate-y-[50%] z-20 shadow-xl border-slate-200 border drop-shadow-2xl rounded-xl bg-white">
+          <div
+            className="w-full  px-3 py-3 hover:bg-purple-100 rounded-xl"
+            onClick={handleSignInOut}
+          >
+            {user?.id ? <span>Sign out</span> : <span>Sign in</span>}
+          </div>
+          <div
+            onClick={() => navigate(PATHS.manage)}
+            className="w-full px-3 py-3 hover:bg-purple-100 rounded-xl"
+          >
+            Manage
+          </div>
         </div>
       )}
     </div>

@@ -12,8 +12,11 @@ export const PATHS = {
     "/reservation/:roomId?start=startDate&end=endDate&quantity=guests",
   reservationDetail: "/reservation/:roomId",
   dashboard: "/dashboard",
+
   rooms: "/manage/rooms",
+  manage: "/manage",
   reservations: "/manage/reservation",
+  reservationsStatus: "/manage/reservation/:status",
   manageBookings: "/manage/bookings",
   roomAdd: "/manage/room-add",
 };

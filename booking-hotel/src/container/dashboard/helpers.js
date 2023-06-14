@@ -9,11 +9,6 @@ export const sidebarLinks = [
     icon: <AiOutlineHome />,
   },
   {
-    title: "Booking",
-    url: PATHS.manageBookings,
-    icon: <HiOutlineSquare3Stack3D />,
-  },
-  {
     title: "Reservation",
     url: PATHS.reservations,
     icon: <AiOutlineCarryOut />,

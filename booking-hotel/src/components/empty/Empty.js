@@ -8,7 +8,7 @@ const Empty = () => {
         viewBox="0 0 400 300"
         width="406"
         height="306"
-        class="illustration"
+        className="illustration"
       >
         <g id="_296_empty_inbox_outline" data-name="#296_empty_inbox_outline">
           <path
