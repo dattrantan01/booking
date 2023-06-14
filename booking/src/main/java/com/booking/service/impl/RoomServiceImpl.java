@@ -59,8 +59,8 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<RoomResponseDto> getWithFilter(String typeRoomId, String provinceId, String roomName, String cityName, String minPrice, String maxPrice) {
-		return roomDao.getWithFilter(typeRoomId, provinceId, roomName, cityName, minPrice, maxPrice).stream().map(room -> roomMapper.roomToRoomResponseDto(room))
+	public List<RoomResponseDto> getWithFilter(String typeRoomId, String provinceId, String roomName, String cityName, String minPrice, String maxPrice, String maxQuantityPeople, Boolean animal) {
+		return roomDao.getWithFilter(typeRoomId, provinceId, roomName, cityName, minPrice, maxPrice,maxQuantityPeople,animal).stream().map(room -> roomMapper.roomToRoomResponseDto(room))
 			.collect(Collectors.toList());
 	}
 	@Override

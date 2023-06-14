@@ -14,6 +14,6 @@ public interface RoomService {
 	Room findById(String id);
 	RoomResponseDto findByRoomId(String roomId, String customerId);
 	List<RoomResponseDto> findByCustomerId(String id);
-	List<RoomResponseDto> getWithFilter(String typeRoomId, String provinceId, String roomName, String cityName, String minPrice, String maxPrice);
+	List<RoomResponseDto> getWithFilter(String typeRoomId, String provinceId, String roomName, String cityName, String minPrice, String maxPrice, String maxQuantityPeople, Boolean animal);
 
 }

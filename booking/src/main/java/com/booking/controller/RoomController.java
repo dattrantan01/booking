@@ -41,14 +41,14 @@ public class RoomController {
 	public ResponseEntity<List<RoomResponseDto>> getWithFilter(@RequestParam(required = false) String typeRoomId,
 		@RequestParam(required = false) String provinceId, @RequestParam(required = false) String roomName,
 		@RequestParam(required = false) String cityName,
-		@RequestParam(required = false) String minPrice, @RequestParam(required = false) String maxPrice) {
-		List<RoomResponseDto> rooms = roomService.getWithFilter(typeRoomId, provinceId, roomName, cityName, minPrice, maxPrice);
+		@RequestParam(required = false) String minPrice, @RequestParam(required = false) String maxPrice,
+		@RequestParam(required = false) String maxQuantityPeople, @RequestParam(required = false) Boolean animal) {
+		List<RoomResponseDto> rooms = roomService.getWithFilter(typeRoomId, provinceId, roomName, cityName, minPrice, maxPrice,maxQuantityPeople, animal);
 		return new ResponseEntity<>(rooms, HttpStatus.OK);
 	}
 
 	@GetMapping("/{roomId}")
-	public ResponseEntity<RoomResponseDto> getDetail(@PathVariable String roomId, @RequestParam(required = false) String customerId) throws
-		ChangeSetPersister.NotFoundException {
+	public ResponseEntity<RoomResponseDto> getDetail(@PathVariable String roomId, @RequestParam(required = false) String customerId) {
 		RoomResponseDto roomResponseDto = roomService.findByRoomId(roomId, customerId);
 		return ResponseEntity.status(HttpStatus.OK).body(roomResponseDto);
 	}
