@@ -9,6 +9,7 @@ import { useAuth } from "../../context/authContext";
 import { useNavigate, useParams } from "react-router";
 import http from "../../config/axiosConfig";
 import RoomDetailReservation from "../roomDetailReservation/RoomDetailReservation";
+import ReviewList from "../reviews/ReviewList";
 
 const RoomDetails = () => {
   const { user } = useAuth();
@@ -16,13 +17,14 @@ const RoomDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState({});
+  const [listComent, setListComment] = useState([]);
 
   useEffect(() => {
     http.get(`rooms/${id}`).then((res) => {
       setData(res.data);
     });
 
-    // http.get(`reviews/rooms/${id}`).then((res) => setListComment(res.data));
+    http.get(`reviews/rooms/${id}`).then((res) => setListComment(res.data));
   }, []);
 
   return (
@@ -149,6 +151,7 @@ const RoomDetails = () => {
               <span>2 Double Bed</span>
             </div>
           </div>
+          <ReviewList />
         </div>
         <div className="w-[40%]">
           <RoomDetailReservation roomDetails={data} id={id} />
