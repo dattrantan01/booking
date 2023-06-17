@@ -39,6 +39,7 @@ public class Review extends BaseEntity{
 	private Customer customer;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "room_id", nullable = false)
 	private Room room;
 
 	@Column(name = "rating")

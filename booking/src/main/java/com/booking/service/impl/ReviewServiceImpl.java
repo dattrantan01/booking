@@ -11,6 +11,7 @@ import com.booking.dao.entity.Room;
 import com.booking.dao.repository.ReviewRepository;
 import com.booking.dao.repository.RoomRepository;
 import com.booking.dto.ReviewDto;
+import com.booking.dto.ReviewListDto;
 import com.booking.mapper.ReviewMapper;
 import com.booking.service.ReviewService;
 import com.booking.service.RoomService;
@@ -41,5 +42,9 @@ public class ReviewServiceImpl implements ReviewService {
 			roomRepository.save(room);
 		}
 		return reviewDto;
+	}
+
+	@Override public List<ReviewListDto> findByRoomId(String roomId) {
+		return reviewRepository.findByRoomIdOrderByTimeCreate(roomId).stream().map(review -> reviewMapper.reviewToReviewListDto(review)).collect(Collectors.toList());
 	}
 }

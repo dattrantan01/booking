@@ -25,7 +25,6 @@ public interface RoomMapper {
 
 	@Mapping(source = "customer.customerName", target = "customerName")
 	@Mapping(source = "roomType.name", target = "roomTypeName")
-	@Mapping(source = "reviews", target = "reviewDtos")
 	@Mapping(source = "utilities", target = "utilitiesDtos")
 	@Mapping(source = "images", target = "imageDtos")
 	@Mapping(source = "province.name", target = "provinceName")

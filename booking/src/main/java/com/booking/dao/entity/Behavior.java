@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Behavior extends BaseEntity{
 
 	@Id
-	@GenericGenerator(name = "id_gen", strategy = "com.coworkingspace.backend.common.utils.GenerateUUID")
+	@GenericGenerator(name = "id_gen", strategy = "com.booking.common.utils.GenerateUUID")
 	@GeneratedValue(generator = "id_gen")
 	@Column(name = "behavior_id")
 	private String id;
