@@ -5,37 +5,25 @@ const ReviewList = ({ reviews }) => {
   return (
     <>
       <h2 className="text-xl font-semibold text-slate-600 mt-8">Reviews</h2>
-      <div className="w-full">
+      <div className="w-full px-5">
         {reviews &&
           reviews.map((comment, index) => (
             <div
-              className="flex flex-col  bg-slate-100 p-3 my-5 rounded"
+              className="flex flex-col  bg-slate-100 p-3 my-5 rounded-md"
               key={index}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center gap-4">
                   <div className="w-11 h-11">
                     <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdqXZFnoB9eMvcBSXMRQrtLBL_JhTfjZFbtcu9DiBoJfu4qqFZleZRD_6WTtfoMXkNZB0&usqp=CAU"
+                      src="https://firebasestorage.googleapis.com/v0/b/dat-s-blog.appspot.com/o/avatars%2Fjisoo.jpg?alt=media&token=c7c2e937-e989-40a8-8a53-8eb7be63ba4b"
                       alt=""
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-                  <span
-                    style={{
-                      marginLeft: "10px",
-                    }}
-                  >
-                    {comment.customerName}
-                  </span>
+                  <span className="font-semibold">{comment.customerName}</span>
                 </div>
-                <div
-                  style={{
-                    fontWeight: "200",
-                    fontSize: "12px",
-                    marginLeft: "5px",
-                  }}
-                >
+                <div className="font-light text-xs ml-1">
                   {comment.timeCreate}{" "}
                 </div>
                 <Rating

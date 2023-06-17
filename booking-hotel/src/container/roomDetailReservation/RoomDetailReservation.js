@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../utils/paths";
 import moment from "moment";
 
-const RoomDetailReservation = ({ id, roomDetails }) => {
+const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
   const [validDates, setInvalidDates] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -73,11 +73,11 @@ const RoomDetailReservation = ({ id, roomDetails }) => {
                 ></path>
               </svg>
             </div>
-            <span className="font-medium"> 4.5</span>
+            <span className="font-medium">{roomDetails?.averageRating}</span>
           </div>
           <Dot />
           <span className="font-normal text-slate-600 underline underline-offset-1">
-            35 reviews
+            {reviews?.length || 0} reviews
           </span>
         </div>
       </div>

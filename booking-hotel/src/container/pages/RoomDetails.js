@@ -17,7 +17,7 @@ const RoomDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState({});
-  const [listComent, setListComment] = useState([]);
+  const [listComment, setListComment] = useState([]);
 
   useEffect(() => {
     http.get(`rooms/${id}`).then((res) => {
@@ -47,11 +47,11 @@ const RoomDetails = () => {
               ></path>
             </svg>
           </div>
-          <span className="font-medium"> 4.5</span>
+          <span className="font-medium"> {data?.averageRating}</span>
         </div>
         <Dot />
         <span className="font-medium underline underline-offset-1">
-          35 reviews
+          {listComment?.length || 0} reviews
         </span>
         <Dot />
         <span className="type text-sm text-grayText font-normal mb-1">
@@ -151,10 +151,14 @@ const RoomDetails = () => {
               <span>2 Double Bed</span>
             </div>
           </div>
-          <ReviewList />
+          <ReviewList reviews={listComment} />
         </div>
         <div className="w-[40%]">
-          <RoomDetailReservation roomDetails={data} id={id} />
+          <RoomDetailReservation
+            roomDetails={data}
+            id={id}
+            reviews={listComment}
+          />
         </div>
       </div>
     </div>
