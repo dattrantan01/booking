@@ -1,11 +1,18 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React from "react";
 import { FiClipboard } from "react-icons/fi";
 import { MdMeetingRoom, MdPeople, MdCalendarToday } from "react-icons/md";
 import { IoMdPricetag } from "react-icons/io";
 import { FaUserPlus, FaDog } from "react-icons/fa";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const ReservationBooking = ({ id, handleReject, handlePayment, bookings }) => {
+const ReservationBooking = ({
+  id,
+  handleReject,
+  handlePayment,
+  handleApprove,
+  bookings,
+}) => {
   const startDateShow = moment(bookings?.startDate).format("MM-DD-YYYY");
   const endDateShow = moment(bookings?.endDate).format("MM-DD-YYYY");
   const status = bookings?.reservationStatusName;
@@ -96,26 +103,64 @@ const ReservationBooking = ({ id, handleReject, handlePayment, bookings }) => {
             </div>
           </div>
         </div>
-        {status === "APPROVED" && (
-          <div className="w-full mt-5 mx-auto max-w-[200px] ">
+        <div className="w-full flex items-center justify-center gap-4">
+          {status === "APPROVED" && handlePayment && (
+            <>
+              <button
+                className="w-full max-w-[150px] px-4 py-2 bg-green-500 text-white shadow-lg rounded-md hover:bg-green-600 hover:-translate-y-[1px] hover:shadow-2xl"
+                onClick={() => handlePayment(bookings?.id)}
+              >
+                Payment
+              </button>
+              <PayPalScriptProvider
+                options={{
+                  clientId: "test",
+                }}
+              >
+                <PayPalButtons
+                  style={{
+                    layout: "horizontal",
+                    color: "black",
+                    tagline: false,
+                  }}
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: "1.99",
+                          },
+                        },
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                      // const name = details.payer.name.given_name;
+                      // alert(`Transaction completed by ${name}`);
+                    });
+                  }}
+                />
+              </PayPalScriptProvider>
+            </>
+          )}
+          {status === "PENDING" && handleApprove && (
             <button
-              className="px-4 py-2 bg-red-500 text-white shadow-lg rounded-md hover:bg-red-600 hover:-translate-y-[1px] hover:shadow-2xl"
-              onClick={() => handlePayment(bookings?.id)}
+              className="w-full max-w-[150px] px-4 py-2 bg-green-500 text-white shadow-lg rounded-md hover:bg-green-600 hover:-translate-y-[1px] hover:shadow-2xl"
+              onClick={() => handleApprove(bookings?.id)}
             >
-              Payment
+              Approve
             </button>
-          </div>
-        )}
-        {status === "PENDING" && (
-          <div className="w-full mx-auto max-w-[200px]">
+          )}
+          {status === "PENDING" && (
             <button
-              className="px-4 py-2 bg-red-500 text-white shadow-lg rounded-md hover:bg-red-600 hover:-translate-y-[1px] hover:shadow-2xl"
+              className="max-w-[150px] w-full px-4 py-2 bg-red-500 text-white shadow-lg rounded-md hover:bg-red-600 hover:-translate-y-[1px] hover:shadow-2xl"
               onClick={() => handleReject(bookings?.id)}
             >
               Reject
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

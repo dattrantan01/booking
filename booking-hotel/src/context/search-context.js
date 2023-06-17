@@ -10,7 +10,7 @@ const SearchProvider = (props) => {
     minPrice: 0,
     maxPrice: 500,
     maxQuantityPeople: 0,
-    roomTypeId: "",
+    typeRoomId: "",
     roomTypeName: "",
   });
   const value = { filter, setFilter };

@@ -18,7 +18,7 @@ const FilterRooms = ({ handleClose, handleConfirm }) => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [persons, setPersons] = useState(filter?.maxQuantityPeople);
   const [roomTypesName, setRoomTypesName] = useState(filter?.roomTypeName);
-  const [roomTypesId, setRoomTypesId] = useState(filter?.roomTypeId);
+  const [roomTypesId, setRoomTypesId] = useState(filter?.typeRoomId);
   const [cityName, setCityName] = useState(filter?.cityName);
   const [cityId, setCityId] = useState(filter?.cityId);
   const [isPet, setIsPet] = useState(filter?.animal);
@@ -105,8 +105,11 @@ const FilterRooms = ({ handleClose, handleConfirm }) => {
             <div className="flex flex-row gap-3 items-center">
               <Label>Pet</Label>
               <CheckboxNoForm
-                value={isPet}
-                onChange={() => setIsPet((prev) => !prev)}
+                checked={isPet}
+                onChange={() => {
+                  setIsPet((prev) => !prev);
+                  console.log("isPet", isPet);
+                }}
               />
             </div>
             <div className="flex flex-row gap-3 items-center">

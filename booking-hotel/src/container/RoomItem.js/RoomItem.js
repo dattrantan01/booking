@@ -1,20 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/paths";
 
-const RoomItem = () => {
+const RoomItem = ({ room }) => {
+  const navigate = useNavigate();
+
+  const handleNavigateToRoomDetail = () => {
+    navigate(PATHS.roomDetails.replace(":id", room?.id));
+  };
+
   return (
     <div className="w-[320px] h-[400px]">
-      <div className="w-full h-[300px] relative">
+      <div
+        className="w-full h-[300px] relative cursor-pointer"
+        onClick={handleNavigateToRoomDetail}
+      >
         <img
-          src={
-            "https://a0.muscache.com/im/pictures/miso/Hosting-39974109/original/4bf3e6ff-555a-4553-973e-a371d4331e43.jpeg?im_w=720"
-          }
+          src={room?.imageDtos?.length && room?.imageDtos[0].url}
           alt=""
           className="w-full h-full object-cover rounded-2xl"
         />
       </div>
       <div className="flex w-full h-[100px] flex-col px-1 py-1">
         <div className="flex flex-row justify-between">
-          <h3 className="type text-sm text-black font-semibold mb-1">Villa</h3>
+          <h3 className="type text-sm text-black font-semibold mb-1">
+            {room?.roomTypeName}
+          </h3>
           <div className="text-[13px] flex flex-row gap-1 items-center">
             <div className="w-3 h-3">
               <svg
@@ -35,13 +46,13 @@ const RoomItem = () => {
           </div>
         </div>
         <h1 className="name text-sm  font-medium text-ellipsis line-clamp-2 overflow-hidden ">
-          Villa Artist, Vintage Style
+          {room?.roomName}
         </h1>
         <p className="address text-sm font-light text-grayLigherText">
-          Hai Chau, Da Nang
+          {room?.provinceName}
         </p>
         <div className="flex w-full font-light text-sm">
-          <span className="font-semibold">$40</span>/Day
+          <span className="font-semibold">${room?.price}</span>/Day
         </div>
       </div>
     </div>

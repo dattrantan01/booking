@@ -43,7 +43,6 @@ public class RoomDaoImpl implements RoomDao {
 		String maxQuantityPeople, Boolean animal) {
 		Double min = 0.0;
 		Double max = 1000000.0;
-		Double maxQP = 100000.0;
 		Session session = entityManager.unwrap((Session.class));
 		if (roomName == null)
 			roomName = "";
@@ -55,8 +54,8 @@ public class RoomDaoImpl implements RoomDao {
 		if (!(maxPrice == null)) {
 			max = Double.valueOf(maxPrice);
 		}
-		if (!(maxQuantityPeople == null)){
-			maxQP = Double.valueOf(maxQuantityPeople);
+		if (maxQuantityPeople == null){
+			maxQuantityPeople = "room.max_quantity_people";
 		}
 		if (animal == null) {
 			animal = false;
@@ -65,7 +64,7 @@ public class RoomDaoImpl implements RoomDao {
 		String list2 = "%" + cityName + "%";
 
 		return session.createNativeQuery(GET_ROOM_FILTER, Room.class).setParameter(1, typeRoomId).setParameter(2, provinceId).setParameter(3, list1)
-			.setParameter(4, list2).setParameter(5, min).setParameter(6, max).setParameter(7,maxQP).setParameter(8, animal ? 1 : 0)
+			.setParameter(4, list2).setParameter(5, min).setParameter(6, max).setParameter(7,maxQuantityPeople).setParameter(8, animal ? 1 : 0)
 			.getResultList();
 	}
 }

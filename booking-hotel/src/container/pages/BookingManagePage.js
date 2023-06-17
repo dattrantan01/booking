@@ -32,11 +32,13 @@ const BookingManagePage = () => {
   }, [status, user]);
 
   const handleReject = (id) => {
-    http.put(`reservations/${id}?reservationStatusName=REJECT`).then(res => {
-      toast.success('Reject Successfully');
-      navigate(PATHS.bookingsStatus.replace(":status", "reject"))
-    })
-  }
+    http.put(`reservations/${id}?reservationStatusName=REJECT`).then((res) => {
+      toast.success("Reject Successfully");
+      navigate(PATHS.bookingsStatus.replace(":status", "reject"));
+    });
+  };
+
+  const handlePayment = (id) => {};
 
   return (
     <div className="px-5 pt-5 w-full">
@@ -46,7 +48,14 @@ const BookingManagePage = () => {
         <div className="grid grid-cols-1 gap-6 w-full">
           {bookings && bookings.length > 0 ? (
             bookings.map((item) => {
-              return <ReservationBooking key={item?.id} bookings={item} handleReject={handleReject} />;
+              return (
+                <ReservationBooking
+                  key={item?.id}
+                  bookings={item}
+                  handlePayment={handlePayment}
+                  handleReject={handleReject}
+                />
+              );
             })
           ) : (
             <Empty />
