@@ -15,6 +15,7 @@ const ReservationBooking = ({
   handleReject,
   handlePayment,
   handleApprove,
+  handleReviewFromUser,
   bookings,
 }) => {
   const { user } = useAuth();
@@ -158,7 +159,7 @@ const ReservationBooking = ({
                         purchase_units: [
                           {
                             amount: {
-                              value: "",
+                              value: "" + bookings.total,
                               showSpinner: true,
                             },
                           },
@@ -167,7 +168,7 @@ const ReservationBooking = ({
                     }}
                     onApprove={(data, actions) => {
                       return actions.order.capture().then((details) => {
-                        console.log("hello");
+                        handlePayment(bookings?.id);
                       });
                     }}
                   />
@@ -190,7 +191,7 @@ const ReservationBooking = ({
                 Reject
               </button>
             )}
-            {status === "SUCCESS" && (
+            {status === "SUCCESS" && handleReviewFromUser && (
               <button
                 className="max-w-[300px] w-full px-4 py-2 bg-purple-500 text-white shadow-lg rounded-md hover:bg-purple-600 hover:-translate-y-[1px] hover:shadow-2xl"
                 onClick={() => handleReviews(bookings?.id)}

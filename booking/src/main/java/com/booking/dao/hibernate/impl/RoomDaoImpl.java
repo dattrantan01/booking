@@ -25,7 +25,7 @@ public class RoomDaoImpl implements RoomDao {
 		"AND province.codename LIKE ?4\n" +
 		"AND room.enable = 1\n" +
 		"AND room.max_quantity_people = COALESCE(?5, room.max_quantity_people)\n" +
-		"AND room.animal = ?6\n" +
+		"AND room.animal = COALESCE(?6, room.animal)" +
 		"AND room.price > ?7 AND room.price < ?8\n" +
 		"ORDER BY room.time_create DESC ";
 
@@ -54,14 +54,11 @@ public class RoomDaoImpl implements RoomDao {
 		if (!(maxPrice == null)) {
 			max = Double.valueOf(maxPrice);
 		}
-		if (animal == null) {
-			animal = false;
-		}
 		String list1 = "%" + roomName + "%";
 		String list2 = "%" + cityName + "%";
 
 		return session.createNativeQuery(GET_ROOM_FILTER, Room.class).setParameter(1, typeRoomId).setParameter(2, provinceId).setParameter(3, list1)
-			.setParameter(4, list2).setParameter(5, maxQuantityPeople).setParameter(6, animal ? 1 : 0).setParameter(7, min).setParameter(8,max)
+			.setParameter(4, list2).setParameter(5, maxQuantityPeople).setParameter(6, animal).setParameter(7, min).setParameter(8,max)
 			.getResultList();
 	}
 }

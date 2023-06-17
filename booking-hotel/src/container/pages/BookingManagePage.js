@@ -38,7 +38,12 @@ const BookingManagePage = () => {
     });
   };
 
-  const handlePayment = (id) => {};
+  const handlePayment = (id) => {
+    http.put(`reservations/${id}?reservationStatusName=SUCCESS`).then((res) => {
+      toast.success("Payment Successfully");
+      navigate(PATHS.bookingsStatus.replace(":status", "success"));
+    });
+  };
 
   return (
     <div className="px-5 pt-5 w-full">
@@ -54,6 +59,7 @@ const BookingManagePage = () => {
                   bookings={item}
                   handlePayment={handlePayment}
                   handleReject={handleReject}
+                  handleReviewFromUser={true}
                 />
               );
             })
