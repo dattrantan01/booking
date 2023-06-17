@@ -14,6 +14,6 @@ public class ReviewDto {
 	private String customerId;
 	private String roomId;
 	private String content;
-	private Boolean isReviewed;
+	private Boolean isReviewed = false;
 	private Double rating;
 }
