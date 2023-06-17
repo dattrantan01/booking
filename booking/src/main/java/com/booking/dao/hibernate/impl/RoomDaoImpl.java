@@ -22,11 +22,11 @@ public class RoomDaoImpl implements RoomDao {
 		"AND province.code IN (SELECT province.code FROM province WHERE province.code = COALESCE(?2, province.code))\n" +
 		"AND room.room_name LIKE ?3\n" +
 		"AND province.name LIKE ?4\n" +
-		"AND room.enable = 1\n" +
-		"AND room.max_quantity_people = ?7\n" +
-		"AND room.animal = ?8\n" +
 		"AND province.codename LIKE ?4\n" +
-		"AND room.price > ?5 AND room.price < ?6\n" +
+		"AND room.enable = 1\n" +
+		"AND room.max_quantity_people = COALESCE(?5, room.max_quantity_people)\n" +
+		"AND room.animal = ?6\n" +
+		"AND room.price > ?7 AND room.price < ?8\n" +
 		"ORDER BY room.time_create DESC ";
 
 	private EntityManager entityManager;
@@ -54,9 +54,6 @@ public class RoomDaoImpl implements RoomDao {
 		if (!(maxPrice == null)) {
 			max = Double.valueOf(maxPrice);
 		}
-		if (maxQuantityPeople == null){
-			maxQuantityPeople = "room.max_quantity_people";
-		}
 		if (animal == null) {
 			animal = false;
 		}
@@ -64,7 +61,7 @@ public class RoomDaoImpl implements RoomDao {
 		String list2 = "%" + cityName + "%";
 
 		return session.createNativeQuery(GET_ROOM_FILTER, Room.class).setParameter(1, typeRoomId).setParameter(2, provinceId).setParameter(3, list1)
-			.setParameter(4, list2).setParameter(5, min).setParameter(6, max).setParameter(7,maxQuantityPeople).setParameter(8, animal ? 1 : 0)
+			.setParameter(4, list2).setParameter(5, maxQuantityPeople).setParameter(6, animal ? 1 : 0).setParameter(7, min).setParameter(8,max)
 			.getResultList();
 	}
 }
