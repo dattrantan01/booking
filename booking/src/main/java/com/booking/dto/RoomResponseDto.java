@@ -27,6 +27,7 @@ public class RoomResponseDto {
 	private String provinceName;
 	private Boolean animal;
 	private Boolean enable;
+	List<ReviewDto> reviewDtos;
 	List<ImageDto> imageDtos;
 	List<UtilitiesDto> utilitiesDtos;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")

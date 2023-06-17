@@ -103,6 +103,7 @@ CREATE TABLE `review`
     room_id     VARCHAR(15) NOT NULL,
     content     TEXT,
     rating      DOUBLE,
+    is_reviewed BOOLEAN,
     enable      BOOLEAN,
     time_create DATETIME DEFAULT CURRENT_TIMESTAMP,
     time_update DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
