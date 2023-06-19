@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.booking.dao.entity.Reservation;
 import com.booking.dao.entity.Review;
 import com.booking.dao.entity.Room;
+import com.booking.dao.repository.ReservationRepository;
 import com.booking.dao.repository.ReviewRepository;
 import com.booking.dao.repository.RoomRepository;
 import com.booking.dto.ReviewDto;
@@ -30,6 +32,8 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	private RoomRepository roomRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
 
 	@Override public ReviewDto createReview(ReviewDto reviewDto) {
 		reviewRepository.save(reviewMapper.reviewDtoToReview(reviewDto));
@@ -41,6 +45,9 @@ public class ReviewServiceImpl implements ReviewService {
 			room.setAverageRating( Math.round(avg * 2) / 2.0);
 			roomRepository.save(room);
 		}
+		Reservation reservation = reservationRepository.findById(reviewDto.getReservationId()).orElseThrow();
+		reservation.setReviewed(true);
+		reservationRepository.save(reservation);
 		return reviewDto;
 	}
 

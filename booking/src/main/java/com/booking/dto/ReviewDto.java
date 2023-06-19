@@ -13,6 +13,7 @@ public class ReviewDto {
 	private String id;
 	private String customerId;
 	private String roomId;
+	private String reservationId;
 	private String content;
 	private Boolean isReviewed = false;
 	private Double rating;

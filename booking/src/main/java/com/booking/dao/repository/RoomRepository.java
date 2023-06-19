@@ -10,4 +10,5 @@ import com.booking.dao.entity.Room;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, String> {
 	List<Room> getByCustomerIdAndEnableIsTrueOrderByTimeCreateDesc(String id);
+	List<Room> findTop6ByOrderByAverageRatingDesc();
 }
