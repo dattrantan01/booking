@@ -56,6 +56,7 @@ const BookingManagePage = () => {
               return (
                 <ReservationBooking
                   key={item?.id}
+                  id={item?.id}
                   bookings={item}
                   handlePayment={handlePayment}
                   handleReject={handleReject}

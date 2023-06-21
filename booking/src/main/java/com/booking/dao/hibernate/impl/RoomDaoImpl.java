@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import com.booking.dao.entity.Customer;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -60,5 +61,10 @@ public class RoomDaoImpl implements RoomDao {
 		return session.createNativeQuery(GET_ROOM_FILTER, Room.class).setParameter(1, typeRoomId).setParameter(2, provinceId).setParameter(3, list1)
 			.setParameter(4, list2).setParameter(5, maxQuantityPeople).setParameter(6, animal).setParameter(7, min).setParameter(8,max)
 			.getResultList();
+	}
+
+	@Override
+	public List<Customer> findAllByBehavior() {
+		return null;
 	}
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { AiOutlineClear, AiOutlineCloseCircle } from "react-icons/ai";
 import Label from "../../components/label/Label";
 import Dropdown from "../../components/dropdown/Dropdown";
 import Select from "../../components/dropdown/Select";
@@ -13,7 +13,7 @@ import CheckboxNoForm from "../../components/checkbox/CheckboxNoForm";
 import { useSearch } from "../../context/search-context";
 
 const FilterRooms = ({ handleClose, handleConfirm }) => {
-  const { filter } = useSearch();
+  const { filter, setFilter } = useSearch();
   const [cities, setCites] = useState([]);
   const [roomTypes, setRoomTypes] = useState([]);
   const [persons, setPersons] = useState(filter?.maxQuantityPeople);
@@ -23,6 +23,37 @@ const FilterRooms = ({ handleClose, handleConfirm }) => {
   const [cityId, setCityId] = useState(filter?.cityId);
   const [isPet, setIsPet] = useState(filter?.animal);
   const [price, setPrice] = useState([filter?.minPrice, filter?.maxPrice]);
+
+  console.log({
+    cityId: cityId,
+    cityName: cityName,
+    animal: isPet,
+    minPrice: 0,
+    maxPrice: 500,
+    maxQuantityPeople: persons,
+    typeRoomId: roomTypesId,
+    roomTypeName: roomTypesName,
+  });
+
+  const handleClearFilter = () => {
+    setCityId("");
+    setCityName("");
+    setIsPet(false);
+    setPrice([0, 500]);
+    setPersons(0);
+    setRoomTypesId("");
+    setRoomTypesName("");
+    setFilter({
+      cityId: "",
+      cityName: "",
+      animal: false,
+      minPrice: 0,
+      maxPrice: 500,
+      maxQuantityPeople: 0,
+      typeRoomId: "",
+      roomTypeName: "",
+    });
+  };
 
   useEffect(() => {
     http
@@ -134,21 +165,30 @@ const FilterRooms = ({ handleClose, handleConfirm }) => {
             />
           </div>
         </div>
-        <Button
-          onClick={() =>
-            handleConfirm({
-              cityId,
-              roomTypesId,
-              isPet,
-              persons,
-              price,
-              roomTypesName,
-              cityName,
-            })
-          }
-        >
-          OK
-        </Button>
+        <div className="w-full flex flex-col gap-2 px-2 py-2">
+          <div
+            onClick={handleClearFilter}
+            className="flex flex-row gap-1 items-center px-2 py-2 ml-auto cursor-pointer shadow-md rounded-md"
+          >
+            <AiOutlineClear />
+            <span>Clear filter</span>
+          </div>
+          <Button
+            onClick={() =>
+              handleConfirm({
+                cityId,
+                roomTypesId,
+                isPet,
+                persons,
+                price,
+                roomTypesName,
+                cityName,
+              })
+            }
+          >
+            OK
+          </Button>
+        </div>
       </div>
     </div>,
     document.querySelector("body")

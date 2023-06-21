@@ -9,6 +9,8 @@ import ReviewModal from "../reviews/ReviewModal";
 import http from "../../config/axiosConfig";
 import { useAuth } from "../../context/authContext";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/paths";
 
 const ReservationBooking = ({
   id,
@@ -19,6 +21,7 @@ const ReservationBooking = ({
   bookings,
 }) => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [reviewModal, setReviewModal] = useState(false);
   const startDateShow = moment(bookings?.startDate).format("MM-DD-YYYY");
   const endDateShow = moment(bookings?.endDate).format("MM-DD-YYYY");
@@ -34,8 +37,9 @@ const ReservationBooking = ({
 
   const handleReview = (rating, comment) => {
     const review = {
+      reservationId: id,
       customerId: user?.id,
-      roomId: bookings.roomId,
+      roomId: bookings?.roomId,
       content: comment,
       rating: rating,
     };
@@ -44,6 +48,7 @@ const ReservationBooking = ({
       .post("reviews", review)
       .then((res) => {
         setReviewModal(false);
+        navigate(PATHS.roomDetails.replace(":id", bookings?.roomId));
         toast.success("Review success");
       })
       .catch((err) => console.log(err));
@@ -70,7 +75,12 @@ const ReservationBooking = ({
                   <div className="flex flex-row gap-2 items-center">
                     <MdMeetingRoom />
                     <span className="font-semibold">Room name:</span>
-                    <span>{bookings?.roomName}</span>
+                    <Link
+                      to={PATHS.roomDetails.replace(":id", bookings?.roomId)}
+                      className="hover:text-primary"
+                    >
+                      {bookings?.roomName}
+                    </Link>
                   </div>
                 </div>
 
@@ -100,7 +110,7 @@ const ReservationBooking = ({
                   <div className="flex flex-row gap-2 items-center">
                     <FaUserPlus />
                     <span className="font-semibold">Persons:</span>
-                    <span>{"3"}</span>
+                    <span>{bookings?.quantityPeople}</span>
                   </div>
                 </div>
                 <div>

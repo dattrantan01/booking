@@ -10,11 +10,9 @@ import { useNavigate, useParams } from "react-router";
 import http from "../../config/axiosConfig";
 import RoomDetailReservation from "../roomDetailReservation/RoomDetailReservation";
 import ReviewList from "../reviews/ReviewList";
+import { AiFillStar } from "react-icons/ai";
 
 const RoomDetails = () => {
-  const { user } = useAuth();
-  const userId = user?.id;
-  const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState({});
   const [listComment, setListComment] = useState([]);
@@ -130,26 +128,16 @@ const RoomDetails = () => {
             Property features
           </h2>
           <div className="w-full flex flex-row mt-8 gap-4 flex-wrap">
-            <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
-              <FaBed className="text-2xl" />
-              <span>2 Double Bed</span>
-            </div>
-            <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
-              <FaBath className="text-2xl" />
-              <span>1 Bathroom</span>
-            </div>
-            <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
-              <FaBed className="text-2xl" />
-              <span>2 Double Bed</span>
-            </div>
-            <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
-              <FaBed className="text-2xl" />
-              <span>2 Double Bed</span>
-            </div>
-            <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
-              <FaBed className="text-2xl" />
-              <span>2 Double Bed</span>
-            </div>
+            {data?.utilitiesDtos &&
+              data?.utilitiesDtos?.length &&
+              data?.utilitiesDtos?.map((item) => {
+                return (
+                  <div className="w-[200px] h-[70px] flex flex-row gap-3 items-center justify-center  border border-slate-300 rounded-xl shadow-md">
+                    <AiFillStar className="text-2xl" />
+                    <span>{`${item.value} ${item.name}`}</span>
+                  </div>
+                );
+              })}
           </div>
           <ReviewList reviews={listComment} />
         </div>
