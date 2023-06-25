@@ -65,6 +65,9 @@ public class RoomDaoImpl implements RoomDao {
 
 	@Override
 	public List<Customer> findAllByBehavior() {
-		return null;
+		String GET_CUSTOMER_BY_BEHAVIOR =
+				"select distinct customer.* from Customer join behavior on customer.customer_id = behavior.customer_id where behavior.`time` > 0";
+		Session session = entityManager.unwrap((Session.class));
+		return session.createNativeQuery(GET_CUSTOMER_BY_BEHAVIOR, Customer.class).getResultList();
 	}
 }

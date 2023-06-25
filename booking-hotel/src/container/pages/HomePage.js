@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBox from "../searchBox/SearchBox";
 import RoomTypes from "../roomTypes/RoomTypes";
+import RoomRecommend from "../roomRecommend/RoomRecommend";
 
 const HomePage = () => {
   return (
@@ -29,6 +30,7 @@ const HomePage = () => {
         </div>
       </section>
       <RoomTypes />
+      <RoomRecommend />
     </>
   );
 };

@@ -118,13 +118,13 @@ public class RoomServiceImpl implements RoomService {
 			if (v != u) {
 				double aRV = getAverageRating(v, matrix);
 				var value = userSimilarityCaculate(u, aRU, v, aRV, matrix, rooms, customer, customers.get(v));
-				if (value != 0) {
+				if (value != 0) { //
 					userSimilarities.add(new Pair(v, value));
 				}
 			}
 		}
 
-		if (userSimilarities.size() > 15) {
+		if (userSimilarities.size() > 15) { //
 			userSimilarities = userSimilarities.subList(0, 15);
 		}
 

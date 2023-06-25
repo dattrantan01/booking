@@ -20,11 +20,17 @@ public class RoomResponseDto {
 	private String roomName;
 	private String description;
 	private String roomTypeName;
+	private String roomTypeId;
 	private String address;
 	private Double averageRating;
 	private Double price;
 	private Integer maxQuantityPeople;
 	private String provinceName;
+	private Integer provinceId;
+	private String districtName;
+	private Integer districtId;
+	private String wardName;
+	private Integer wardId;
 	private Boolean animal;
 	private Boolean enable;
 	List<ReviewDto> reviewDtos;

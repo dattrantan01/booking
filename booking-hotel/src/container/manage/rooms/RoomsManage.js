@@ -112,6 +112,7 @@ const RoomsManage = () => {
         data={currentData()}
         isLoading={isLoading}
         handleDelete={handleDelete}
+        linkTo={"/manage/rooms/"}
       />
       <div className="flex justify-end mt-5">
         <Pagination

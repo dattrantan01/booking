@@ -16,14 +16,17 @@ const RoomDetails = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [listComment, setListComment] = useState([]);
+  const { user } = useAuth();
+  const userId = user?.id;
 
   useEffect(() => {
-    http.get(`rooms/${id}`).then((res) => {
+    const query = userId ? `rooms/${id}?customerId=${userId}` : `rooms/${id}`;
+    http.get(query).then((res) => {
       setData(res.data);
     });
 
     http.get(`reviews/rooms/${id}`).then((res) => setListComment(res.data));
-  }, []);
+  }, [userId, id]);
 
   return (
     <div className="w-full mt-[10px] max-w-[1250px] mx-auto">
@@ -124,7 +127,11 @@ const RoomDetails = () => {
       </div>
       <div className="w-full mt-8 flex flex-row">
         <div className="w-[60%]">
-          <h2 className="text-xl font-semibold text-slate-600">
+          <h2 className="text-xl font-semibold text-slate-600 mb-2">
+            About this place
+          </h2>
+          <div>{data?.description}</div>
+          <h2 className="text-xl font-semibold text-slate-600 mt-4">
             Property features
           </h2>
           <div className="w-full flex flex-row mt-8 gap-4 flex-wrap">

@@ -25,8 +25,13 @@ public interface RoomMapper {
 
 	@Mapping(source = "customer.customerName", target = "customerName")
 	@Mapping(source = "roomType.name", target = "roomTypeName")
+	@Mapping(source = "roomType.id", target = "roomTypeId")
 	@Mapping(source = "utilities", target = "utilitiesDtos")
 	@Mapping(source = "images", target = "imageDtos")
 	@Mapping(source = "province.name", target = "provinceName")
+	@Mapping(source = "district.name", target = "districtName")
+	@Mapping(source = "province.code", target = "provinceId")
+	@Mapping(source = "district.code", target = "districtId")
+	@Mapping(source = "ward.code", target = "wardId")
 	RoomResponseDto roomToRoomResponseDto(Room room);
 }

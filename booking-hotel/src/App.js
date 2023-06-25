@@ -15,6 +15,8 @@ import BookingManagePage from "./container/pages/BookingManagePage";
 import Reservations from "./container/manage/reservations/Reservations";
 import ReservationsLayout from "./container/reservationsLayout/ReservationsLayout";
 import { SearchProvider } from "./context/search-context";
+import RegisterPage from "./container/pages/RegisterPage";
+import RoomUpdate from "./container/manage/rooms/RoomUpdate";
 
 function App() {
   return (
@@ -42,6 +44,7 @@ function App() {
           >
             <Route path={PATHS.rooms} element={<RoomsManage />}></Route>
             <Route path={PATHS.roomAdd} element={<RoomAdd />}></Route>
+            <Route path={PATHS.roomUpdate} element={<RoomUpdate />}></Route>
             <Route path={PATHS.reservations} element={<ReservationsLayout />}>
               <Route
                 path={PATHS.reservationsStatus}
@@ -50,6 +53,7 @@ function App() {
             </Route>
           </Route>
           <Route path={PATHS.login} element={<LoginPage />}></Route>
+          <Route path={PATHS.register} element={<RegisterPage />}></Route>
         </Routes>
       </SearchProvider>
     </AuthProvider>

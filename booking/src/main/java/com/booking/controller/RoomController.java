@@ -62,7 +62,7 @@ public class RoomController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateRoom(@PathVariable String id, @RequestPart RoomRequestDto roomRequestDto){
+	public ResponseEntity<?> updateRoom(@PathVariable String id, @RequestBody RoomRequestDto roomRequestDto){
 		roomService.updateRoom(id,roomRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
