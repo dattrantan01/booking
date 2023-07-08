@@ -13,6 +13,7 @@ const ReservationDetailPage = () => {
   const [searchParams] = useSearchParams();
   const [roomDetails, setRoomDetails] = useState({});
 
+  const isPet = searchParams.get("isPet") === "false" ? "No" : "Yes";
   const startDate = searchParams.get("start");
   const endDate = searchParams.get("end");
   const guests = searchParams.get("quantity");
@@ -33,12 +34,13 @@ const ReservationDetailPage = () => {
   const handleRequestBooking = async () => {
     const formatStartDate = moment(dateStartDate).format("YYYY-MM-DD");
     const formatEndDate = moment(dateEndDate).format("YYYY-MM-DD");
+    const animal = isPet === "Yes" ? true : false;
 
     await http.post(`/reservations`, {
       roomId: roomId,
       customerId: user?.id,
       quantityPeople: guests,
-      animal: true, //TODO
+      animal: animal, //TODO
       startDate: formatStartDate,
       endDate: formatEndDate,
       total: priceBeforeFee,
@@ -74,7 +76,7 @@ const ReservationDetailPage = () => {
             </div>
             <div>
               <div className="font-medium mt-5">Pets</div>
-              <div className="text-sm font-normal mt-3">Yes</div>
+              <div className="text-sm font-normal mt-3">{isPet}</div>
             </div>
           </div>
           <div className="w-full h-[1px] bg-slate-300 mt-10"></div>

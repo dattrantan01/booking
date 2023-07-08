@@ -13,10 +13,10 @@ const Header = () => {
     navigate("/");
   };
   const handleSignInOut = () => {
-    if (!user.id) {
+    if (!user?.id) {
       navigate("/login");
     }
-    if (user.id) {
+    if (user?.id) {
       localStorage.removeItem("token");
       setUser({
         id: "",

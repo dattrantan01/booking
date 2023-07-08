@@ -12,7 +12,7 @@ const RoomRecommend = () => {
 
   useEffect(() => {
     http.get(`rooms/favorite/customer/${idCustomer}`).then((res) => {
-      setData(res.data);
+      setData(res?.data);
     });
   }, [idCustomer]);
   return (
@@ -27,15 +27,15 @@ const RoomRecommend = () => {
               return (
                 <SwiperSlide key={index}>
                   <FavoriteItem
-                    key={room.id}
-                    url={room.imageDtos[0].url}
-                    address={`${room.address}, ${room.provinceName}`}
-                    roomName={room.roomName}
-                    roomTypeName={room.roomTypeName}
-                    price={room.price}
-                    id={room.id}
-                    typeRoomId={room.typeRoomId}
-                    averageRating={room.averageRating}
+                    key={room?.id}
+                    url={room?.imageDtos[0]?.url}
+                    address={`${room?.address}, ${room?.provinceName}`}
+                    roomName={room?.roomName}
+                    roomTypeName={room?.roomTypeName}
+                    price={room?.price}
+                    id={room?.id}
+                    typeRoomId={room?.typeRoomId}
+                    averageRating={room?.averageRating}
                   ></FavoriteItem>
                 </SwiperSlide>
               );

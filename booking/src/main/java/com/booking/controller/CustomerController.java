@@ -36,6 +36,12 @@ public class CustomerController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<String> updateCustomer(@PathVariable String id, @RequestBody CustomerDto customerDto) {
+		customerService.updateCustomer(id,customerDto);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+
 	@GetMapping("/me")
 	public ResponseEntity<?> getCurrentUser(HttpServletRequest request) {
 		if (request.getHeader(HEADER_NAME) == null){

@@ -117,7 +117,7 @@ const ReservationBooking = ({
                   <div className="flex flex-row gap-2 items-center">
                     <FaDog />
                     <span className="font-semibold">Pets:</span>
-                    <span>{"Yes"}</span>
+                    <span>{bookings?.animal ? "Yes" : "No"}</span>
                   </div>
                 </div>
                 <div>

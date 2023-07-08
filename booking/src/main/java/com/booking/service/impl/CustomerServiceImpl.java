@@ -45,6 +45,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public void updateCustomer(String id, CustomerDto customerDto) {
+		Customer customer = customerMapper.customerDtoToCustomer(customerDto);
+		if (customerDto.getPassword() == null) {
+			String password = customerRepository.findByEmail(customerDto.getEmail()).get().getPassword();
+			customer.setPassword(password);
+		}
+		customerRepository.save(customer);
+	}
+
+	@Override
 	public CustomerResponseDto getCurrentUser(HttpServletRequest request) {
 		String authorizationHeader = request.getHeader(HEADER_NAME);
 		String token = authorizationHeader.substring(TOKEN_PREFIX.length());

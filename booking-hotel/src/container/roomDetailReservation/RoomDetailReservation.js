@@ -8,13 +8,34 @@ import Dot from "../../components/dot/Dot";
 import http from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../utils/paths";
+import { AiFillMinusCircle } from "react-icons/ai";
+import { format } from "date-fns";
 import moment from "moment";
+
+const convertDateToString = (date) => {
+  const dateObj = new Date(date);
+  const month = dateObj.getUTCMonth() + 1; //months from 1-12
+  const day = dateObj.getUTCDate() + 1;
+  const year = dateObj.getUTCFullYear();
+  const rs = year + "-" + month + "-" + day;
+  return format(new Date(rs), "yyyy-MM-dd");
+};
 
 const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
   const [validDates, setInvalidDates] = useState([]);
+  console.log(
+    "🚀 ~ file: RoomDetailReservation.js:26 ~ RoomDetailReservation ~ validDates:",
+    validDates
+  );
+  const [isPet, setIsPet] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [guests, setGuests] = useState(1);
+  const [limitDate, setLimitDate] = useState(new Date());
+  console.log(
+    "🚀 ~ file: RoomDetailReservation.js:35 ~ RoomDetailReservation ~ limitDate:",
+    limitDate
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +43,33 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
       setInvalidDates(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    const date = convertDateToString(startDate);
+    http
+      .get(`reservations/furthest_valid_date/${id}?from=${date}`)
+      .then((res) => {
+        setLimitDate(res.data);
+      });
+  }, [startDate]);
+
+  const disableCustomDate = (current) => {
+    if (validDates) {
+      return (
+        !validDates.includes(current.format("YYYY-MM-DD")) &&
+        new Date(current) > new Date()
+      );
+    }
+  };
+
+  const disableEndDate = (current) => {
+    return (
+      new Date(current) <= new Date(limitDate) &&
+      new Date(current) >= new Date(startDate) &&
+      new Date(current) >= new Date() &&
+      startDate != null
+    );
+  };
 
   const handleCheckInDate = (date) => {
     setStartDate(date);
@@ -46,6 +94,7 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
         .replace("endDate", moment(endDate).format("MM/DD/YYYY"))
         .replace("guests", guests)
         .replace(":roomId", id)
+        .replace("pet", isPet || false)
     );
   };
 
@@ -86,7 +135,7 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
           <span>Check In</span>
           <div className="date_picker_wrapper">
             <DatePicker
-              dateFormat="MM/DD/YYYY"
+              dateFormat="YYYY-MM-DD"
               timeFormat={false}
               className="datePicker"
               wrapperClassName="datePicker"
@@ -94,6 +143,7 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
               closeOnSelect={true}
               value={startDate}
               onChange={(date) => handleCheckInDate(date)}
+              isValidDate={disableCustomDate}
             />
           </div>
         </div>
@@ -101,14 +151,15 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
           <span>Check Out</span>
           <div className="date_picker_wrapper">
             <DatePicker
-              dateFormat="MM/DD/YYYY"
+              dateFormat="YYYY-MM-DD"
               timeFormat={false}
               className="datePicker"
               wrapperClassName="datePicker"
-              minDate={new Date()}
+              minDate={startDate}
               closeOnSelect={true}
               value={endDate}
               onChange={(date) => handleCheckOutDate(date)}
+              isValidDate={disableEndDate}
             />
           </div>
         </div>
@@ -123,10 +174,20 @@ const RoomDetailReservation = ({ id, roomDetails, reviews }) => {
             onChange={handleChangeGuests}
           />
         </Field>
-        <Field>
-          <span>Pets</span>
-          <CheckboxNoForm />
-        </Field>
+        {roomDetails?.animal ? (
+          <Field>
+            <span>Pets</span>
+            <CheckboxNoForm
+              checked={isPet}
+              onChange={(e) => setIsPet(!isPet)}
+            />
+          </Field>
+        ) : (
+          <Field>
+            <span>No Pets allow</span>
+            <AiFillMinusCircle width={30} height={30} />
+          </Field>
+        )}
       </div>
       <div className="w-full mt-5">
         <button

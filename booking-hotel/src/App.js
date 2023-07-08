@@ -17,6 +17,7 @@ import ReservationsLayout from "./container/reservationsLayout/ReservationsLayou
 import { SearchProvider } from "./context/search-context";
 import RegisterPage from "./container/pages/RegisterPage";
 import RoomUpdate from "./container/manage/rooms/RoomUpdate";
+import UserProfile from "./container/manage/userProfile/UserProfile";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             path={PATHS.manage}
             element={<DashBoardLayout></DashBoardLayout>}
           >
+            <Route path={PATHS.manage} element={<UserProfile />}></Route>
             <Route path={PATHS.rooms} element={<RoomsManage />}></Route>
             <Route path={PATHS.roomAdd} element={<RoomAdd />}></Route>
             <Route path={PATHS.roomUpdate} element={<RoomUpdate />}></Route>

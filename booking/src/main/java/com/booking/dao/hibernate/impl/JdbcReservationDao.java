@@ -37,7 +37,7 @@ public class JdbcReservationDao implements ReservationDao {
 
 	@Override
 	public String getFurthestValidDate(String roomId, String from) {
-		String reservationStatusId = reservationStatusService.findByReservationStatusName("APPROVED").getId();
+		String reservationStatusId = reservationStatusService.findByReservationStatusName("SUCCESS").getId();
 		final String GET_FURTHEST_VALID_DATE = "SELECT DATE(start_date) - INTERVAL 1 DAY AS furthest_date FROM reservation \n" +
 			"WHERE room_id = '" + roomId + "'\n" +
 			"AND DATE('" + from + "') < DATE(start_date)\n" +
@@ -55,7 +55,7 @@ public class JdbcReservationDao implements ReservationDao {
 
 	@Override
 	public List<LocalDate> getAllInvalidDates(String roomId) throws ChangeSetPersister.NotFoundException {
-		String reservationStatusId = reservationStatusService.findByReservationStatusName("APPROVED").getId();
+		String reservationStatusId = reservationStatusService.findByReservationStatusName("SUCCESS").getId();
 		List<LocalDate> ret = new ArrayList<>();
 		final String sql = "SELECT DISTINCT gen_date AS date FROM \n" +
 			"(SELECT ADDDATE('1970-01-01',t4*10000 + t3*1000 + t2*100 + t1*10 + t0) gen_date FROM\n" +
@@ -80,7 +80,7 @@ public class JdbcReservationDao implements ReservationDao {
 
 	@Override
 	public List<DateStatus> getDateStatus(String roomId, int month, int year) {
-		String reservationStatusId = reservationStatusService.findByReservationStatusName("APPROVED").getId();
+		String reservationStatusId = reservationStatusService.findByReservationStatusName("SUCCESS").getId();
 		List<DateStatus> ret = new ArrayList<>();
 		final String sql = "WITH RECURSIVE days AS\n" +
 			"(\n" +

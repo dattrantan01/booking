@@ -1,8 +1,13 @@
 import { PATHS } from "../../utils/paths";
 import { AiOutlineHome, AiOutlineCarryOut } from "react-icons/ai";
-import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
+import { FaUserCircle } from "react-icons/fa";
 
 export const sidebarLinks = [
+  {
+    title: "Profile",
+    url: PATHS.manage,
+    icon: <FaUserCircle />,
+  },
   {
     title: "Rooms",
     url: PATHS.rooms,

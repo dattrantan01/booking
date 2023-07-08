@@ -47,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override public List<ReservationResponseDto> getByCustomerIdAndStatusName(String statusName, String customerId) {
-		return reservationRepository.findByReservationStatusReservationStatusNameAndCustomerId(statusName, customerId).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
+		return reservationRepository.findByReservationStatusReservationStatusNameAndCustomerIdOrderByTimeCreateDesc(statusName, customerId).stream().map(reservation -> reservationMapper.reservationToReservationResponseDto(reservation)).collect(
 			Collectors.toList());
 	}
 

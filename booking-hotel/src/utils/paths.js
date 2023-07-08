@@ -10,7 +10,7 @@ export const PATHS = {
   bookingsStatus: "/bookings/:status",
   roomDetails: "/rooms/:id",
   reservationDetailWithSearchParams:
-    "/reservation/:roomId?start=startDate&end=endDate&quantity=guests",
+    "/reservation/:roomId?start=startDate&end=endDate&quantity=guests&isPet=pet",
   reservationDetail: "/reservation/:roomId",
   dashboard: "/dashboard",
 
