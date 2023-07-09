@@ -22,7 +22,7 @@ const ReservationDetailPage = () => {
   const dateEndDate = new Date(endDate);
   const dateCount = (dateEndDate - dateStartDate) / 86400000 + 1;
   const priceBeforeFee = dateCount * roomDetails?.price;
-  const fee = priceBeforeFee * 0.05;
+  const fee = Number(priceBeforeFee * 0.025).toFixed(2);
   const total = priceBeforeFee + fee;
 
   useEffect(() => {

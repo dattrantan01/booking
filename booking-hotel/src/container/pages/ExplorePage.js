@@ -1,14 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import RoomItem from "../RoomItem.js/RoomItem";
 import { BsFilter } from "react-icons/bs";
 import FilterRooms from "../filter/FilterRooms";
 import { useSearch } from "../../context/search-context";
 import http from "../../config/axiosConfig";
+import usePagination from "../../hooks/usePagination";
+import { Pagination } from "@mui/material";
 
 const ExplorePage = () => {
   const [rooms, setRooms] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const { setFilter, filter } = useSearch();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const PER_PAGE = 16;
+
+  const searchData = useMemo(() => {
+    const searchHandle = search.trim().toLowerCase();
+    if (searchHandle === "") {
+      return rooms;
+    } else {
+      if (rooms) {
+        const roomsSearch = rooms.filter((room) => {
+          return room.roomName?.toLowerCase().includes(searchHandle);
+        });
+        return roomsSearch;
+      } else {
+        return [];
+      }
+    }
+  }, [search, rooms]);
+
+  const count = Math.ceil(searchData.length / PER_PAGE);
+
+  const { currentData, jump } = usePagination(searchData, PER_PAGE);
 
   const filterQuery = ({ ...filter }) => {
     let filterList = "rooms/room-filter";
@@ -73,6 +99,16 @@ const ExplorePage = () => {
     setShowFilter(false);
   };
 
+  const handlePagination = (e, page) => {
+    setPage(page);
+    console.log("page", page);
+    jump(page);
+  };
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    jump(1);
+  };
+
   return (
     <div className="w-full flex flex-col mt-[50px]">
       {showFilter && (
@@ -83,10 +119,14 @@ const ExplorePage = () => {
       )}
       <div className="w-full max-w-[600px] mx-auto relative z-20">
         <h1 className="text-2xl font-[500] mb-4 ml-3">
-          Explore a best place to enjoy your vaccation
+          Explore a best place to enjoy your vacation
         </h1>
         <div className="w-full flex flex-row items-center gap-5">
-          <input className="w-full py-5 px-8 rounded-md outline-none border border-gray-300 shadow-sm" />
+          <input
+            onChange={handleSearch}
+            value={search}
+            className="w-full py-5 px-8 rounded-md outline-none border border-gray-300 shadow-sm"
+          />
           <BsFilter
             className="w-10 h-10 cursor-pointer"
             onClick={handleShowFilter}
@@ -94,9 +134,18 @@ const ExplorePage = () => {
         </div>
       </div>
       <div className="mt-[50px] grid grid-cols-4 gap-x-12 w-full max-w-[1400px] gap-y-3 mx-auto relative z-0">
-        {rooms.map((item) => (
+        {currentData()?.map((item) => (
           <RoomItem room={item} />
         ))}
+      </div>
+      <div className="flex justify-end mt-5">
+        <Pagination
+          count={count}
+          variant="outlined"
+          color="primary"
+          page={page}
+          onChange={handlePagination}
+        />
       </div>
     </div>
   );

@@ -21,6 +21,22 @@ const UserProfile = () => {
   const { user, setUser } = useAuth();
   const userId = user?.id;
   const [isEdit, setIsEdit] = useState(false);
+  const [bookings, setBookings] = useState([]);
+
+  const total = bookings?.reduce((acc, booking) => acc + booking?.total, 0);
+  const serviceFee = Number(total * 0.975 * 0.025).toFixed(2);
+  const countReservationSuccess = bookings?.length;
+
+  useEffect(() => {
+    http
+      .get(`reservations/by-owner/${user?.id}?statusName=SUCCESS`)
+      .then((res) => {
+        setBookings(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
 
   const {
     handleSubmit,
@@ -78,11 +94,13 @@ const UserProfile = () => {
           </div>
           <span className="text-xl font-semibold">{user?.email}</span>
         </div>
-        {!isEdit && (
+        {
           <div>
-            <Button onClick={() => setIsEdit(!isEdit)}>Edit</Button>
+            <Button onClick={() => setIsEdit(!isEdit)}>
+              {isEdit ? "Cancel" : "Edit"}
+            </Button>
           </div>
-        )}
+        }
       </div>
       <div className="mt-6 flex flex-row gap-3 items-baseline">
         <span className="text-xl font-semibold">Role: </span>
@@ -127,6 +145,22 @@ const UserProfile = () => {
             <div className="">{user?.phoneNumber}</div>
             <div className="w-full h-[1px] bg-slate-400 -mt-2"></div>
           </Field>
+        </div>
+      )}
+      {!isEdit && (
+        <div className="calculate grid grid-cols-4">
+          <div className="w-[200px] h-[90px] rounded-md shadow-md p-3 flex flex-col justify-between shadow-green-400/100">
+            <h3 className="font-medium text-green-600">Total:</h3>
+            <div>${total}</div>
+          </div>
+          <div className="w-[200px] h-[90px] rounded-md shadow-md p-3 flex flex-col justify-between shadow-green-400/100">
+            <h3 className="font-medium text-green-600">Service Fee:</h3>
+            <div>${serviceFee}</div>
+          </div>
+          <div className="w-[200px] h-[90px] rounded-md shadow-md p-3 flex flex-col justify-between shadow-green-400/100">
+            <h3 className="font-medium text-green-600">Success Reservation:</h3>
+            <div>{countReservationSuccess}</div>
+          </div>
         </div>
       )}
     </div>
